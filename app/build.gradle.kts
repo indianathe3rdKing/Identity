@@ -51,4 +51,20 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
+
+    implementation(libs.clerk.android.ui)
+
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+
+    implementation(libs.voyager.navigator)
+
+    implementation(platform(libs.supabase.bom))
+    implementation(libs.supabase.postgrest)
+
+    implementation(libs.ktor.client.android)
+
+    implementation(libs.kotlinx.serialization.json)
+
+
 }
