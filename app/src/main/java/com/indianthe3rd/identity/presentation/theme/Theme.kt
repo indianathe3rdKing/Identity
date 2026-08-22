@@ -1,6 +1,5 @@
-package com.indianthe3rd.identity.ui.theme
+package com.indianthe3rd.identity.presentation.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
