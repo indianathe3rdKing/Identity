@@ -1,8 +1,10 @@
 name: Pull Request Test
 
 on:
+  push:
+    branches: [main]
   pull_request:
-    branches: ['*']
+    branches: [main]
 
 jobs:
   build:
@@ -17,8 +19,14 @@ jobs:
           java-version: 17
           cache: 'gradle'
 
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
       - name: Grant execute permissions for gradlew
         run: chmod +x gradlew
 
+      - name: Run Lint
+        run: ./gradlew lintDebug
+
       - name: Run unit tests
-        run: ./gradlew clean testDebug
+        run: ./gradlew clean testDebugUnitTest --stacktrace
