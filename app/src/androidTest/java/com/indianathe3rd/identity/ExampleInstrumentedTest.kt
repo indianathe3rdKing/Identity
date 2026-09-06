@@ -1,4 +1,4 @@
-package com.indianthe3rd.identity
+package com.indianathe3rd.identity
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

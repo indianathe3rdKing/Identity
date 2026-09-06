@@ -1,4 +1,4 @@
-package com.indianthe3rd.identity
+package com.indianathe3rd.identity
 
 import org.junit.Test
 

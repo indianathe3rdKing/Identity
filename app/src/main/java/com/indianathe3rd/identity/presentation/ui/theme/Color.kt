@@ -1,4 +1,4 @@
-package com.indianthe3rd.identity.presentation.theme
+package com.indianathe3rd.identity.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

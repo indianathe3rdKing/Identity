@@ -1,4 +1,4 @@
-package com.indianthe3rd.identity.presentation.theme
+package com.indianathe3rd.identity.presentation.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    namespace = "com.indianthe3rd.identity"
+    namespace = "com.indianathe3rd.identity"
     compileSdk {
         version = release(37)
     }
 
     defaultConfig {
-        applicationId = "com.indianthe3rd.identity"
+        applicationId = "com.indianathe3rd.identity"
         minSdk = 29
         targetSdk = 37
         versionCode = 1
