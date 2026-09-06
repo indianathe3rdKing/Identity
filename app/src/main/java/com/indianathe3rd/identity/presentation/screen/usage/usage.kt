@@ -23,7 +23,7 @@ fun UsageScreen() {
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Welcome to the Usage Screen!",
+            text = "Welcome to the Usage Screen",
             style = MaterialTheme.typography.titleLarge,
             modifier = Modifier.padding(bottom = 16.dp)
         )
