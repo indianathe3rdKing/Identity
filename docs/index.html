@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Google Play policy draft for the Identity app at its current early-stage prototype status."
+    />
+    <title>Identity | Google Play Policy</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <div class="container nav">
+        <div class="brand">
+          <span class="brand-mark">I</span>
+          <span>Identity</span>
+        </div>
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="#overview">Overview</a>
+          <a href="#data">Data</a>
+          <a href="#privacy">Privacy</a>
+          <a href="#future">Future updates</a>
+        </nav>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="eyebrow">Google Play policy draft</div>
+        <h1>Identity app policy for the current stage</h1>
+        <p class="lead">
+          This document describes the app’s compliance position while it remains in its early-stage,
+          prototype phase. The goal is to reflect the actual build as it exists today and keep the
+          policy updated as features are added.
+        </p>
+
+        <div class="tag-row" aria-label="Policy tags">
+          <span class="tag success">No personal data collected</span>
+          <span class="tag">Low-risk permissions</span>
+          <span class="tag">Prototype stage</span>
+          <span class="tag warning">Needs update before launch</span>
+        </div>
+
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-label">Status</div>
+            <div class="stat-value">Early-stage</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Auth</div>
+            <div class="stat-value">None active</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">User data</div>
+            <div class="stat-value">Not collected</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Permissions</div>
+            <div class="stat-value">Internet only</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <main class="container">
+      <section id="overview" class="card">
+        <h2>1. App overview</h2>
+        <p>
+          Identity is an Android app built with Kotlin and Jetpack Compose. At this stage, it is an
+          early-stage learning and prototype app rather than a production consumer product or
+          revenue-generating service.
+        </p>
+        <ul>
+          <li>Basic app screens such as loading, home, profile, error, and usage views</li>
+          <li>Lightweight UI navigation and app flow structure</li>
+          <li>Internet access for future app communication and backend integration</li>
+          <li>No in-app purchases, ads, or paid features</li>
+          <li>No social networking, messaging, media upload, or content sharing features</li>
+          <li>No active authentication provider, user account system, or personal-data collection configured at this stage</li>
+        </ul>
+      </section>
+
+      <section id="data" class="card">
+        <h2>2. Current policy position for Google Play</h2>
+        <p>
+          The app is treated as a low-risk utility and prototype app with the following conditions:
+        </p>
+        <ul>
+          <li>It does not currently collect personal user data in the app itself</li>
+          <li>It does not contain restricted, harmful, or abusive content</li>
+          <li>It does not include paid subscriptions, gambling, or regulated product categories</li>
+          <li>It does not currently use sensitive device permissions such as camera, microphone, contacts, SMS, call logs, or location</li>
+          <li>It does not include user-generated content feeds or community features</li>
+        </ul>
+      </section>
+
+      <section class="grid">
+        <div class="card">
+          <h2>3. Data handled by the app</h2>
+          <p>
+            At this stage, the app does not have a production authentication system, user database,
+            or backend storage configured. The app is therefore treated as a non-personal-data app
+            while it remains in early development.
+          </p>
+          <ul>
+            <li>No user accounts are created in the current app build</li>
+            <li>No custom user data is stored by the app itself</li>
+            <li>No personal information is intentionally collected at this stage</li>
+            <li>Any future backend or authentication integration will require a fresh privacy review before launch</li>
+          </ul>
+        </div>
+
+        <div id="privacy" class="card">
+          <h2>4. Privacy and data protection</h2>
+          <ul class="checklist">
+            <li>No personal data should be collected beyond what is necessary for app operation and testing.</li>
+            <li>No user account data should be stored unless a backend and privacy review are completed.</li>
+            <li>All future data requests, retention, and deletion flows should be documented in the final privacy policy before launch.</li>
+            <li>A publicly accessible privacy policy URL should be added before publishing to Google Play.</li>
+            <li>The app must provide a clear mechanism for users to request account deletion and data removal if production auth or backend services are introduced later.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="grid">
+        <div class="card">
+          <h2>5. Security requirements</h2>
+          <ul class="checklist">
+            <li>Do not add or store user data without a clear privacy and security review.</li>
+            <li>Keep any future API keys and sensitive credentials out of public source repositories.</li>
+            <li>Use secure backend environments for production credentials if authentication or storage is introduced later.</li>
+            <li>Validate all externally loaded content and remote API interactions.</li>
+            <li>Avoid crash or log output that includes personally identifiable user data.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h2>6. User safety and compliance</h2>
+          <ul class="checklist">
+            <li>Illegal activity support or instructions are not allowed.</li>
+            <li>Harmful, threatening, or abusive content is not permitted.</li>
+            <li>Deceptive or misleading functionality must be avoided.</li>
+            <li>Fake engagement or click fraud is prohibited.</li>
+            <li>Clear consent and transparent data handling practices are required.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="grid">
+        <div class="card">
+          <h2>7. Permissions used by the app</h2>
+          <p>Current Android manifest permissions:</p>
+          <div class="tag-row">
+            <span class="tag">Internet access only</span>
+          </div>
+          <p>
+            This is a low-risk permission profile for the current stage. If future features require
+            location, camera, microphone, contact access, or storage permissions, a separate risk
+            and compliance review will be required.
+          </p>
+        </div>
+
+        <div class="card">
+          <h2>8. Required Google Play prep before launch</h2>
+          <ul class="checklist">
+            <li>Final app name and description</li>
+            <li>Privacy policy URL</li>
+            <li>Completed Data Safety form</li>
+            <li>Reviewed content rating</li>
+            <li>Terms and conditions if needed</li>
+            <li>Proper signing and release build</li>
+            <li>Permission and SDK review</li>
+            <li>Crash reporting and support contact information</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="future" class="card">
+        <h2>9. Future update rule</h2>
+        <p>
+          This policy should be updated whenever the app changes in one of the following ways:
+        </p>
+        <ul>
+          <li>Adds a login, identity provider, or account system</li>
+          <li>Starts collecting user data of any kind</li>
+          <li>Introduces monetization, ads, or subscriptions</li>
+          <li>Adds camera, microphone, location, contacts, or storage permissions</li>
+          <li>Enables user-generated content, chat, social features, or uploads</li>
+          <li>Uses a backend database or analytics provider</li>
+          <li>Starts storing personal data locally or remotely</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>10. Version history</h2>
+        <ul class="version-list">
+          <li><strong>v1.1 (2026-09-06):</strong> Updated to reflect the current early-stage app position: no user data is being collected or stored because no auth/backend provider is active in the project yet.</li>
+          <li><strong>v1.0 (2026-09-06):</strong> Initial policy draft for early-stage Identity app. Covers current low-risk permissions and onboarding considerations for future Google Play readiness.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>11. Legal note</h2>
+        <p>
+          This document is a working compliance draft and is not legal advice. For formal Google
+          Play publication, verify all requirements against the latest Google Play policy and consult
+          a legal or compliance professional when necessary.
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">Identity • Google Play Policy Draft • Updated for current project stage</div>
+    </footer>
+  </body>
+</html>
