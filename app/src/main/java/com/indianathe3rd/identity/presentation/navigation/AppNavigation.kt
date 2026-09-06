@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.indianathe3rd.identity.presentation.screen.home.HomeScreen
 import com.indianathe3rd.identity.presentation.screen.profile.ProfileScreen
+import com.indianathe3rd.identity.presentation.screen.usage.UsageScreen
 import com.indianathe3rd.identity.presentation.ui.icons.Icons
 
 @Composable
@@ -44,6 +45,7 @@ fun AppNavigation() {
                 when(selectTabIndex){
                     0->HomeScreen()
                     1->ProfileScreen()
+                    2-> UsageScreen()
                 }
             }
         },
@@ -63,10 +65,16 @@ fun AppNavigation() {
                         onClick = {selectTabIndex=0}
                     )
                     TabNavigationItem(
-                        title = "Profile",
+                        title = "Usage",
                         icon = Icons.Cog6Tooth,
                         selected = selectTabIndex==1,
                         onClick = {selectTabIndex=1}
+                    )
+                    TabNavigationItem(
+                        title = "Profile",
+                        icon = Icons.Cog6Tooth,
+                        selected = selectTabIndex==2,
+                        onClick = {selectTabIndex=2}
                     )
                 }
             }
