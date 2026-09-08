@@ -63,7 +63,7 @@ jobs:
         with:
           releaseDirectory: app/release
           signingKeyBase64: ${{ secrets.ANDROID_KEYSTORE }}
-          keyStorePassword: ${{ secreta.KEYSTORE_PASSWORD}}
+          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD}}
           alias: ${{ secrets.ANDROID_ALIAS}}
 
 
