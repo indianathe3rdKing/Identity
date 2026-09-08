@@ -1,0 +1,6 @@
+name: Deploy To Play Store
+
+on:
+  push:
+    branches:
+      - main
