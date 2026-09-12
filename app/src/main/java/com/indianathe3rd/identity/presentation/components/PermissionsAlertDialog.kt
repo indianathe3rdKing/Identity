@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun AlertModalConsent(onAccept: () -> Unit, onDismiss: () -> Unit, onTutorial: () -> Unit) {
+fun PermissionsAlertDialog(onAccept: () -> Unit, onDismiss: () -> Unit, onTutorial: () -> Unit) {
 
     AlertDialog(
         onDismissRequest = {},
