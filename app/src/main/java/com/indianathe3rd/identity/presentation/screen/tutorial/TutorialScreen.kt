@@ -1,9 +1,6 @@
 package com.indianathe3rd.identity.presentation.screen.tutorial
 
-import com.indianathe3rd.identity.presentation.sections.TutorialCards
-
-package com.indiphile_menziwa.clicka.ui.screens.tutorial
-
+import com.indiphile_menziwa.clicka.ui.extensions.TopBar
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,9 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
-import com.indiphile_menziwa.clicka.R
-import com.indiphile_menziwa.clicka.ui.extensions.TopBar
-
+import com.indianathe3rd.identity.R
 
 class TutorialScreen : Screen {
     @Composable
@@ -36,14 +31,14 @@ class TutorialScreen : Screen {
                     .padding(vertical = 16.dp)
             ) {
 
-
-                TutorialCards("1", "Enter Accessibility", R.drawable.step1)
-                Spacer(Modifier.height(size))
-                TutorialCards("2", "Select \"Clicka\"", R.drawable.step2)
-                Spacer(Modifier.height(size))
-                TutorialCards("3", "Turn on \"Clicka\" toggle", R.drawable.step3)
-                Spacer(Modifier.height(size))
-                TutorialCards("4", "Allow the permissions", R.drawable.step4)
+//
+//                TutorialCards("1", "Enter Accessibility", R.drawable.step1)
+//                Spacer(Modifier.height(size))
+//                TutorialCards("2", "Select \"Clicka\"", R.drawable.step2)
+//                Spacer(Modifier.height(size))
+//                TutorialCards("3", "Turn on \"Clicka\" toggle", R.drawable.step3)
+//                Spacer(Modifier.height(size))
+//                TutorialCards("4", "Allow the permissions", R.drawable)
 
                 Spacer(Modifier.height(90.dp))
 
