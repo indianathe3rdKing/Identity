@@ -1,6 +1,7 @@
 package com.indianathe3rd.identity.presentation.viewmodel
 
 import android.Manifest
+import android.app.Activity
 import android.app.AppOpsManager
 import android.content.Context
 import android.content.Intent
@@ -13,11 +14,18 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.core.content.getSystemService
 import android.os.Process
 import android.provider.Settings
+import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
-class PermissionViewmodel {
+@HiltViewModel
+class PermissionViewmodel @Inject constructor(
+    @ApplicationContext private val context: Context
+): ViewModel() {
 
 
-        fun isUsageAccessGranted(context: Context): Boolean{
+        fun isUsageAccessGranted(): Boolean{
             val appOps = context.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
             val mode = appOps.noteOpNoThrow(
                 AppOpsManager.OPSTR_GET_USAGE_STATS
@@ -30,13 +38,15 @@ class PermissionViewmodel {
 
 
 
-    fun requestUsageAccessPermission(context: Context){
-        if (!isUsageAccessGranted(context)){
+    fun requestUsageAccessPermission(){
+
             val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS).apply {
                 data = Uri.fromParts("package", context.packageName,null)
             }
-
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
-        }
+
     }
+
+
 }
