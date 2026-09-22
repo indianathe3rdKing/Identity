@@ -19,23 +19,20 @@ class UsageRepositoryImpl(
 
         val usageStatsManager = context.getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
 
-        val stats = usageStatsManager.queryUsageStats(
-            UsageStatsManager.INTERVAL_DAILY,
+        val stats = usageStatsManager.queryAndAggregateUsageStats(
             beginTime,
             endTime
-        ) ?: return emptyList()
+        )
 
-
-        return stats
+        return stats.values
             .filter { it.totalTimeInForeground > 0 }
             .sortedByDescending { it.totalTimeInForeground }
-            .map{stats ->
+            .map { usageStats ->
                 AppUsage(
-                    packageName = stats.packageName,
-                    appName = getAppName(stats.packageName),
-                    totalTimeInForeground = stats.totalTimeInForeground,
-                    lastTimeUsed = stats.lastTimeUsed,
-
+                    packageName = usageStats.packageName,
+                    appName = getAppName(usageStats.packageName),
+                    totalTimeInForeground = usageStats.totalTimeInForeground,
+                    lastTimeUsed = usageStats.lastTimeUsed,
                 )
             }
     }
@@ -44,22 +41,13 @@ class UsageRepositoryImpl(
         return try {
             val packageManager = context.packageManager
             val appInfo  = packageManager.getApplicationInfo(packageName,0)
-            packageManager.getApplicationLabel(appInfo)
+            packageManager.getApplicationLabel(appInfo).toString()
         } catch (e: Exception) {
             Log.d(TAG,"${packageName} : ${e}")
-        } as String
+            packageName
+        }
     }
 
-    override suspend fun getAppIcon(packageName: String): Drawable {
-        return try {
-            val packageManager = context.packageManager
-            val appInfo = packageManager.getApplicationInfo(packageName,0)
-            packageManager.getApplicationIcon(appInfo)
-        }catch (e: Exception){
-            Log.d(TAG, "Failed to get icon for $packageName: $e")
-            null
-        } as Drawable
-    }
 
 
     companion object {

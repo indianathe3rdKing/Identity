@@ -16,10 +16,15 @@ lifecycle = "2.11.0"
 voyager = "2.2.21-1.10.3"
 
 supabase = "3.8.0"
-ktor = "3.5.2"
+ktor = "3.6.0"
 
 serialization = "1.11.0"
 
+hilt = "2.60.1"
+
+ksp = "2.3.12"
+
+coil = "3.6.3"
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -45,6 +50,10 @@ androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-ru
 # Voyager
 voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
 
+
+#Hilt
+hilt-android = { group= "com.google.dagger" , name = "hilt-android", version.ref="hilt"}
+hilt-android-compiler = {group="com.google.dagger", name="hilt-android-compiler", version.ref="hilt"}
 # Supabase
 supabase-bom = { module = "io.github.jan-tennert.supabase:bom", version.ref = "supabase" }
 supabase-postgrest = { module = "io.github.jan-tennert.supabase:postgrest-kt" }
@@ -55,8 +64,14 @@ ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "k
 # Kotlin Serialization
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
 
+#icons
+material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
+
+#Coil
+coil-compose= {group = "io.coil-kt.coil3", name = "coil-compose", version.ref= "coil"}
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

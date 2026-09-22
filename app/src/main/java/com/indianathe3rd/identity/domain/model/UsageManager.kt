@@ -7,7 +7,7 @@ data class AppUsage(
     val appName: String,
     val totalTimeInForeground: Long,
     val lastTimeUsed: Long,
-    val icon: Drawable? = null
+
 )
 
 data class UsageSummary(
