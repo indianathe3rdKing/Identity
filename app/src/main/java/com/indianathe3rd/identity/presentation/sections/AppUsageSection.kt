@@ -1,8 +1,10 @@
 package com.indianathe3rd.identity.presentation.sections
 
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -30,10 +32,12 @@ fun AppUsageSection(
     LazyRow(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
+
     ) {
         items(appUsageList) { app ->
+            Spacer(Modifier.width(4.dp))
             AppUsageItem(app)
+            Spacer(Modifier.width(2.dp))
         }
     }
 }

@@ -4,9 +4,10 @@ package com.indianathe3rd.identity.data.mapper
 object AppUsageMapper{
 
     fun Long.formatUsageTime(): String {
-        val seconds = this /1000
-        val minutes = seconds / 60
-        val hours = minutes / 60
+        val totalSeconds = this/1000
+        val seconds = totalSeconds % 60
+        val minutes = (totalSeconds / 60) % 60
+        val hours = totalSeconds / 3600
 
         return when {
             hours > 0 -> "${hours}h ${minutes}m"

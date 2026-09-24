@@ -32,7 +32,7 @@ fun HomeScreen(permissionViewmodel: PermissionViewmodel = viewModel()) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(8.dp),
+            .padding(4.dp,8.dp),
 
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center

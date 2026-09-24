@@ -29,7 +29,7 @@ class AppUsageViewModel @Inject constructor(
 
     fun getAppUsageStats(){
 
-        val intervalType = UsageStatsManager.INTERVAL_DAILY
+        val intervalType = UsageStatsManager.INTERVAL_BEST
         //Define the time frame (e.g from 24 hours ago until now)
         val endtime = System.currentTimeMillis()
         val calender = Calendar.getInstance()
