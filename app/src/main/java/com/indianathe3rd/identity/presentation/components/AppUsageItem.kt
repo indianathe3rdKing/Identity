@@ -37,6 +37,8 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.drawable.toBitmap
 import com.indianathe3rd.identity.data.mapper.AppUsageMapper.formatUsageTime
 import com.indianathe3rd.identity.domain.model.AppUsage
+import com.indianathe3rd.identity.presentation.ui.theme.SocialPink
+import com.indianathe3rd.identity.presentation.ui.theme.TextPrimary
 
 @Composable
 fun AppUsageItem(app: AppUsage) {
@@ -95,22 +97,23 @@ fun AppUsageItem(app: AppUsage) {
 
                     Text(
                         text = app.appName,
-                        fontSize = 14.sp,
+                        fontSize = 12.sp,
                         fontWeight = FontWeight.Bold,
-                        maxLines = 1
+                        maxLines = 1,
+                        color = TextPrimary
                     )
                     Text(
                         text = app.totalTimeInForeground.formatUsageTime(),
-                        fontSize = 12.sp,
+                        fontSize = 10.sp,
                         fontWeight = FontWeight.Normal,
-                        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.7f)
+                        color = TextPrimary.copy(alpha = 0.7f)
                     )
                     LinearProgressIndicator(
                         progress = progress,
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(6.dp)
-                        ,color = Color(0xFF6200EE),
+                        ,color = SocialPink,
                         trackColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.3f)
                     )
                 }
