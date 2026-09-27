@@ -21,6 +21,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -40,6 +42,9 @@ fun AppUsageSection(
 ) {
     val appUsageList by viewModel.appUsage
     val context = LocalContext.current
+
+val showAll by remember {mutableStateOf(false)}
+    val displayedApps = if (showAll) appUsageList else appUsageList.take(4)
     // Load the data when the screen appears
     LaunchedEffect(Unit) {
         viewModel.getAppUsageStats()
@@ -105,7 +110,7 @@ fun AppUsageSection(
                 .fillMaxWidth()
 
         ) {
-            items(appUsageList) { app ->
+            items(displayedApps) { app ->
                 Spacer(Modifier.width(4.dp))
                 AppUsageItem(app)
                 Spacer(Modifier.width(2.dp))
