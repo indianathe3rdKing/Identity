@@ -11,6 +11,11 @@ enum class AppCategory {
     OTHER
 }
 
+data class AppClassification(
+    val packageName: String,
+    val appName: String?,
+    val category: AppCategory
+)
 data class ClassifiedAppUsage(
     val packageName:  String,
     val appName: String,

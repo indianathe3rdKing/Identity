@@ -75,6 +75,8 @@ dependencies {
 
     implementation(libs.coil.compose)
 
+    implementation(libs.genai.prompt)
+
 }
 
 

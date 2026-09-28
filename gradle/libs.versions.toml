@@ -25,6 +25,8 @@ hilt = "2.60.1"
 ksp = "2.3.12"
 
 coil = "3.6.3"
+
+genai = "1.0.0-beta4"
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -64,7 +66,11 @@ ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "k
 # Kotlin Serialization
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
 
-#icons
+# Genai ML Kit
+
+genai-prompt= {module = "com.google.mlkit:genai-prompt", version.ref = "genai"}
+
+# Icons
 material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
 
 #Coil
