@@ -70,9 +70,6 @@ ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.r
 # Kotlin Serialization
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
 
-# Gemini AI
-genai-prompt = { module = "com.google.ai.client.generativeai:generativeai", version.ref = "genai" }
-
 #OpenAI
 openai = { module = "com.aallam.openai:openai-client", version.ref = "openai" }
 

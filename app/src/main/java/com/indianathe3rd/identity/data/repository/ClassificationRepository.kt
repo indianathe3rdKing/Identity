@@ -1,7 +1,13 @@
 package com.indianathe3rd.identity.data.repository
 
 import android.util.Log
+import com.aallam.openai.api.chat.ChatCompletionRequest
+import com.aallam.openai.api.chat.ChatMessage
+import com.aallam.openai.api.chat.ChatRole
+import com.aallam.openai.api.model.ModelId
+import com.aallam.openai.client.OpenAI
 import com.google.ai.client.generativeai.GenerativeModel
+import com.indianathe3rd.identity.data.Config
 import com.indianathe3rd.identity.domain.model.AppClassification
 import com.indianathe3rd.identity.domain.repository.ClassificationRepository
 import com.indianathe3rd.identity.domain.usecase.usage.GetAppNameUsecase
@@ -10,10 +16,7 @@ import com.indianathe3rd.identity.domain.model.AppCategory
 class ClassificationRepositoryImpl(
     private val getAppNameUsecase: GetAppNameUsecase
 ) : ClassificationRepository {
-    private val generativeModel = GenerativeModel(
-        modelName = "gemini-1.5-flash", // Use a valid model name like "gemini-1.5-flash" or "gemini-2.0-flash"
-        apiKey = "" // Ensure this is a valid Google AI Studio API key starting with "AIzaSy..."
-    )
+   private val openAI = OpenAI(token = Config.OPENAI_API_KEY)
 
     override suspend fun getClassifications(packageNames: List<String>): List<AppClassification> {
         TODO("Not yet implemented")
@@ -44,9 +47,20 @@ class ClassificationRepositoryImpl(
             Return ONLY the category name in uppercase. Do not provide an explanation, reasoning, punctuation, or any other text.
         """.trimIndent()
 
-        val response = generativeModel.generateContent(prompt = prompt)
+        val response = openAI.chatCompletion(
+            ChatCompletionRequest(
+                model = ModelId("gpt-5.4-nano"),
+                messages = listOf(
+                    ChatMessage(role = ChatRole.User, content = prompt)
+                )
+            )
+        )
 
-        val categoryText = response.text
+        val categoryText = response
+            .choices
+            .firstOrNull()
+            ?.message
+            ?.content
             ?.trim()
             ?.uppercase()
 
