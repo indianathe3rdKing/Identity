@@ -28,7 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.indianathe3rd.identity.R
 import com.indianathe3rd.identity.presentation.components.AppUsageItem
 import com.indianathe3rd.identity.presentation.ui.theme.SoftPurple
@@ -38,7 +38,7 @@ import com.indianathe3rd.identity.presentation.viewmodel.AppUsageViewModel
 
 @Composable
 fun AppUsageSection(
-    viewModel: AppUsageViewModel = viewModel()
+    viewModel: AppUsageViewModel = hiltViewModel()
 ) {
     val appUsageList by viewModel.appUsage
     val context = LocalContext.current

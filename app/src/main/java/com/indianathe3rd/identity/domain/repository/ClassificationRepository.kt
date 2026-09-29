@@ -11,5 +11,5 @@ interface ClassificationRepository {
         classification: AppClassification
     )
 
-    suspend fun createClassification(packageNames: List<String>): List<AppClassification>
+    suspend fun createClassification(packageName: String): AppClassification
 }

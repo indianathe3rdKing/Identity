@@ -12,14 +12,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.indianathe3rd.identity.presentation.components.PermissionsAlertDialog
 import com.indianathe3rd.identity.presentation.screen.tutorial.TutorialScreen
 import com.indianathe3rd.identity.presentation.sections.AppUsageSection
 import com.indianathe3rd.identity.presentation.viewmodel.PermissionViewmodel
 
 @Composable
-fun HomeScreen(permissionViewmodel: PermissionViewmodel = viewModel()) {
+fun HomeScreen(permissionViewmodel: PermissionViewmodel = hiltViewModel()) {
 
     val isPermissionGranted = permissionViewmodel.isUsageAccessGranted()
     val context = LocalContext.current

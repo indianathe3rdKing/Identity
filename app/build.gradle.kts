@@ -65,17 +65,21 @@ dependencies {
     implementation(libs.supabase.postgrest)
 
     implementation(libs.ktor.client.android)
-
+    implementation(libs.ktor.client.okhttp)
     implementation(libs.kotlinx.serialization.json)
 
-    implementation("androidx.compose.material:material-icons-extended")
+    implementation(libs.material.icons.extended)
 
     implementation(libs.hilt.android)
+    implementation(libs.androidx.hilt.navigation.compose)
     ksp(libs.hilt.android.compiler)
 
     implementation(libs.coil.compose)
 
     implementation(libs.genai.prompt)
+
+    implementation(libs.openai)
+
 
 }
 

@@ -1,8 +1,11 @@
 package com.indianathe3rd.identity.di
 
 import android.content.Context
+import com.indianathe3rd.identity.data.repository.ClassificationRepositoryImpl
 import com.indianathe3rd.identity.data.repository.UsageRepositoryImpl
+import com.indianathe3rd.identity.domain.repository.ClassificationRepository
 import com.indianathe3rd.identity.domain.repository.UsageRepository
+import com.indianathe3rd.identity.domain.usecase.usage.GetAppNameUsecase
 import com.indianathe3rd.identity.domain.usecase.usage.GetAppsUsageUsecase
 import dagger.Module
 import dagger.Provides
@@ -24,8 +27,23 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideClassificationRepository(
+        getAppNameUsecase: GetAppNameUsecase
+    ): ClassificationRepository{
+        return ClassificationRepositoryImpl(getAppNameUsecase)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetAppName(repository: UsageRepository): GetAppNameUsecase{
+        return GetAppNameUsecase(repository)
+    }
+
+    @Provides
+    @Singleton
     fun provideGetAppsUsecase(repository: UsageRepository): GetAppsUsageUsecase{
         return GetAppsUsageUsecase(repository)
     }
+
 
 }
