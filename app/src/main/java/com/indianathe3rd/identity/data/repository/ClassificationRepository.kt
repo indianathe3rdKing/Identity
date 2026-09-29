@@ -12,7 +12,7 @@ class ClassificationRepositoryImpl(
 ) : ClassificationRepository {
     private val generativeModel = GenerativeModel(
         modelName = "gemini-1.5-flash", // Use a valid model name like "gemini-1.5-flash" or "gemini-2.0-flash"
-        apiKey = "AQ.Ab8RN6LQ0p74R9LcfJHt1sadOOBVEzE4yvzVP5ue0K2_ZaCWMg" // Ensure this is a valid Google AI Studio API key starting with "AIzaSy..."
+        apiKey = "" // Ensure this is a valid Google AI Studio API key starting with "AIzaSy..."
     )
 
     override suspend fun getClassifications(packageNames: List<String>): List<AppClassification> {
