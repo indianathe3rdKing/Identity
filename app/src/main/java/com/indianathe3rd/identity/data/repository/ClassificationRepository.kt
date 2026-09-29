@@ -53,6 +53,7 @@ class ClassificationRepositoryImpl(
         val category = try {
             AppCategory.valueOf(categoryText ?: "OTHER")
         } catch (e: Exception) {
+            Log.e(TAG, "Error parsing category for package: $packageName, received: $categoryText", e)
             AppCategory.OTHER
         }
          AppClassification(
