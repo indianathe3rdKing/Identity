@@ -10,8 +10,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.indianathe3rd.identity.domain.model.AppUsage
+import com.indianathe3rd.identity.domain.model.CategoryUsage
 import com.indianathe3rd.identity.domain.repository.ClassificationRepository
 import com.indianathe3rd.identity.domain.usecase.usage.GetAppsUsageUsecase
+import com.indianathe3rd.identity.domain.usecase.usage.GetCategoryUsageSummaryUsecase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.ktor.http.ContentType
 import kotlinx.coroutines.launch
@@ -22,12 +24,15 @@ import javax.inject.Inject
 class AppUsageViewModel @Inject constructor(
 
     private val getAppUsageUsecase: GetAppsUsageUsecase,
-    private val classificationRepo: ClassificationRepository
+    private val classificationRepo: ClassificationRepository,
+    private val getCategory : GetCategoryUsageSummaryUsecase
 ): ViewModel(){
 
     private val _appUsage = mutableStateOf<List<AppUsage>>(emptyList())
     val appUsage: State<List<AppUsage>> = _appUsage
 
+    private val _categoryUsage =  mutableStateOf<List<CategoryUsage>>(emptyList())
+    val categoryUsage = _categoryUsage
     fun getAppUsageStats(){
 
         val intervalType = UsageStatsManager.INTERVAL_BEST
@@ -40,12 +45,11 @@ class AppUsageViewModel @Inject constructor(
         viewModelScope.launch {
             val appsUsage =
                 getAppUsageUsecase(startTime,endtime,intervalType)
-
+                getCategory(beginTime = startTime, endTime = endtime, intervalType = intervalType)
             _appUsage.value = appsUsage
+            _categoryUsage.value = categoryUsage
             Log.d(TAG, " AppUsage: $appsUsage")
-            appsUsage.map { app->
-                testClassification(app.packageName)
-            }
+            Log.d(TAG, " CategoryUsage: $categoryUsage")
 
         }
 

@@ -20,7 +20,7 @@ data class ClassifiedAppUsage(
     val packageName:  String,
     val appName: String,
     val totalTimeInForeground: Long,
-    val category: AppCategory
+    val category: AppClassification
 )
 
 data class CategoryUsage(
@@ -28,3 +28,23 @@ data class CategoryUsage(
     val totalTime: Long,
     val percentage: Float
 )
+
+data class ScreenTimeReport(
+    val totalScreenTime: Long,
+
+)
+
+data class UsageReport(
+    val period: TimePeriod,
+    val totalTime: Long,
+    val categories: List<CategoryUsage>,
+    val startTime: Long,
+    val endTime: Long
+)
+
+enum class TimePeriod{
+    DAILY,
+    WEEKLY,
+    MONTHLY,
+    YEARLY
+}

@@ -6,7 +6,6 @@ import com.aallam.openai.api.chat.ChatMessage
 import com.aallam.openai.api.chat.ChatRole
 import com.aallam.openai.api.model.ModelId
 import com.aallam.openai.client.OpenAI
-import com.google.ai.client.generativeai.GenerativeModel
 import com.indianathe3rd.identity.data.Config
 import com.indianathe3rd.identity.domain.model.AppClassification
 import com.indianathe3rd.identity.domain.repository.ClassificationRepository
