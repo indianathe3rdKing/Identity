@@ -43,11 +43,11 @@ class AppUsageViewModel @Inject constructor(
         val startTime = calender.timeInMillis
 
         viewModelScope.launch {
-            val appsUsage =
-                getAppUsageUsecase(startTime,endtime,intervalType)
+            val categoriesUsage =
                 getCategory(beginTime = startTime, endTime = endtime, intervalType = intervalType)
+            val appsUsage = getAppUsageUsecase(beginTime = startTime, endTime = endtime, intervalType = intervalType)
             _appUsage.value = appsUsage
-            _categoryUsage.value = categoryUsage
+            _categoryUsage.value = categoriesUsage
             Log.d(TAG, " AppUsage: $appsUsage")
             Log.d(TAG, " CategoryUsage: $categoryUsage")
 

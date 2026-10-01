@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.indianathe3rd.identity.presentation.components.PermissionsAlertDialog
 import com.indianathe3rd.identity.presentation.screen.tutorial.TutorialScreen
+import com.indianathe3rd.identity.presentation.sections.AppCategorySection
 import com.indianathe3rd.identity.presentation.sections.AppUsageSection
 import com.indianathe3rd.identity.presentation.viewmodel.PermissionViewmodel
 
@@ -37,12 +38,8 @@ fun HomeScreen(permissionViewmodel: PermissionViewmodel = hiltViewModel()) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(
-            text = "Welcome to the Home Screen!",
-            style = MaterialTheme.typography.titleLarge,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
-        // Add more UI elements for the home screen here
+
+        AppCategorySection()
         AppUsageSection()
     }
 

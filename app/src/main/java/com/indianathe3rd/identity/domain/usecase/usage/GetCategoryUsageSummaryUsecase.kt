@@ -2,8 +2,9 @@ package com.indianathe3rd.identity.domain.usecase.usage
 
 import com.indianathe3rd.identity.domain.model.CategoryUsage
 import com.indianathe3rd.identity.domain.model.ClassifiedAppUsage
+import javax.inject.Inject
 
-class GetCategoryUsageSummaryUsecase(
+class GetCategoryUsageSummaryUsecase @Inject constructor(
     private val getAppsUsageUsecase: GetAppsUsageUsecase,
     private val getClassifiedAppUsecase: GetClassifiedAppsUsageUsecase
 ) {

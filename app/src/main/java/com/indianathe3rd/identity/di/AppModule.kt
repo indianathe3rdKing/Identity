@@ -7,6 +7,7 @@ import com.indianathe3rd.identity.domain.repository.ClassificationRepository
 import com.indianathe3rd.identity.domain.repository.UsageRepository
 import com.indianathe3rd.identity.domain.usecase.usage.GetAppNameUsecase
 import com.indianathe3rd.identity.domain.usecase.usage.GetAppsUsageUsecase
+import com.indianathe3rd.identity.domain.usecase.usage.GetCategoryUsageSummaryUsecase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -44,6 +45,7 @@ object AppModule {
     fun provideGetAppsUsecase(repository: UsageRepository): GetAppsUsageUsecase{
         return GetAppsUsageUsecase(repository)
     }
+
 
 
 }
