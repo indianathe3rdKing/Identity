@@ -83,7 +83,8 @@ val showAll by remember {mutableStateOf(false)}
             Row(
                 modifier = Modifier
                     .width(60.dp)
-                    .height(20.dp), verticalAlignment = Alignment.CenterVertically
+                    .height(20.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     "View All",
@@ -96,8 +97,8 @@ val showAll by remember {mutableStateOf(false)}
                     contentDescription = "Arrow Forward",
                     tint = SoftTextTertiary,
                     modifier = Modifier
-                        .size(10.dp)
-                        .padding(bottom = 2.dp)
+                        .size(20.dp)
+
                 )
 
 
