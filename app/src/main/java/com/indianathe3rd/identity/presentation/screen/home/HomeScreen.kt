@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -17,10 +18,11 @@ import com.indianathe3rd.identity.presentation.components.PermissionsAlertDialog
 import com.indianathe3rd.identity.presentation.screen.tutorial.TutorialScreen
 import com.indianathe3rd.identity.presentation.sections.AppCategorySection
 import com.indianathe3rd.identity.presentation.sections.AppUsageSection
+import com.indianathe3rd.identity.presentation.viewmodel.AppUsageViewModel
 import com.indianathe3rd.identity.presentation.viewmodel.PermissionViewmodel
 
 @Composable
-fun HomeScreen(permissionViewmodel: PermissionViewmodel = hiltViewModel()) {
+fun HomeScreen(permissionViewmodel: PermissionViewmodel = hiltViewModel(),viewmodel: AppUsageViewModel = hiltViewModel()) {
 
     val isPermissionGranted = permissionViewmodel.isUsageAccessGranted()
     val context = LocalContext.current
@@ -30,6 +32,12 @@ fun HomeScreen(permissionViewmodel: PermissionViewmodel = hiltViewModel()) {
         onDismiss =    {(context as? Activity)?.finish()} ,
         onTutorial = { TutorialScreen()}
     )}
+
+
+    LaunchedEffect(Unit) {
+        viewmodel.getAppUsageStats()
+        viewmodel.getCategoryUsageSummary()
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -39,8 +47,8 @@ fun HomeScreen(permissionViewmodel: PermissionViewmodel = hiltViewModel()) {
         verticalArrangement = Arrangement.Center
     ) {
 
-        AppCategorySection()
-        AppUsageSection()
+        AppCategorySection(viewModel = viewmodel)
+        AppUsageSection(viewModel = viewmodel)
     }
 
 }

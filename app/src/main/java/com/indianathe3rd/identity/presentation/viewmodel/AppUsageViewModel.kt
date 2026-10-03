@@ -25,15 +25,15 @@ class AppUsageViewModel @Inject constructor(
 
     private val getAppUsageUsecase: GetAppsUsageUsecase,
     private val classificationRepo: ClassificationRepository,
-    private val getCategory : GetCategoryUsageSummaryUsecase
-): ViewModel(){
+    private val getCategory: GetCategoryUsageSummaryUsecase
+) : ViewModel() {
 
     private val _appUsage = mutableStateOf<List<AppUsage>>(emptyList())
     val appUsage: State<List<AppUsage>> = _appUsage
 
-    private val _categoryUsage =  mutableStateOf<List<CategoryUsage>>(emptyList())
+    private val _categoryUsage = mutableStateOf<List<CategoryUsage>>(emptyList())
     val categoryUsage = _categoryUsage
-    fun getAppUsageStats(){
+    fun getAppUsageStats() {
 
         val intervalType = UsageStatsManager.INTERVAL_BEST
         //Define the time frame (e.g from 24 hours ago until now)
@@ -43,30 +43,76 @@ class AppUsageViewModel @Inject constructor(
         val startTime = calender.timeInMillis
 
         viewModelScope.launch {
-            val categoriesUsage =
-                getCategory(beginTime = startTime, endTime = endtime, intervalType = intervalType)
-            val appsUsage = getAppUsageUsecase(beginTime = startTime, endTime = endtime, intervalType = intervalType)
-            _appUsage.value = appsUsage
-            _categoryUsage.value = categoriesUsage
-            Log.d(TAG, " AppUsage: $appsUsage")
-            Log.d(TAG, " CategoryUsage: $categoryUsage")
+            try {
+                val appsUsage = getAppUsageUsecase(
+                    beginTime = startTime,
+                    endTime = endtime,
+                    intervalType = intervalType
+                )
+                _appUsage.value = appsUsage
+                Log.d(TAG, " AppUsage: $appsUsage")
+
+            } catch (e: Exception) {
+                Log.e(TAG, "Error fetching app usage", e)
+            }
+
+            try {
+                Log.d(TAG, "Fetching category usage summary")
+                val categoryUsageSummary = getCategory(
+                    beginTime = startTime,
+                    endTime = endtime,
+                    intervalType = intervalType
+                )
+                _categoryUsage.value = categoryUsageSummary
+                Log.d(TAG, " CategoryUsage: $categoryUsageSummary")
+            } catch (e: Exception) {
+                Log.e(TAG, "Error fetching category usage", e)
+            }
+
 
         }
 
 
     }
 
-    fun testClassification(packageName: String){
+    fun getCategoryUsageSummary() {
+
+        val intervalType = UsageStatsManager.INTERVAL_BEST
+        //Define the time frame (e.g from 24 hours ago until now)
+        val endtime = System.currentTimeMillis()
+        val calender = Calendar.getInstance()
+        calender.add(Calendar.DAY_OF_YEAR, -1)
+        val startTime = calender.timeInMillis
+
+        Log.e(TAG, "Function called for category usage summary")
         viewModelScope.launch {
             try {
-                val result = classificationRepo.createClassification(packageName)
-                Log.d(TAG,"Classification Result -> $result")
-            }catch (e: Exception){
-                Log.e(TAG,"Classification failed", e)
+                Log.e(TAG, "Fetching category usage summary")
+                val categoryUsageSummary = getCategory(
+                    beginTime = startTime,
+                    endTime = endtime,
+                    intervalType = intervalType
+                )
+                _categoryUsage.value = categoryUsageSummary
+                Log.e(TAG, " CategoryUsage: $categoryUsageSummary")
+            } catch (e: Exception) {
+                Log.e(TAG, "Error fetching category usage", e)
             }
         }
     }
-    companion object{
+
+    fun testClassification(packageName: String) {
+        viewModelScope.launch {
+            try {
+                val result = classificationRepo.createClassification(packageName)
+                Log.d(TAG, "Classification Result -> $result")
+            } catch (e: Exception) {
+                Log.e(TAG, "Classification failed", e)
+            }
+        }
+    }
+
+    companion object {
         private val TAG = "AppUsageViewModel"
     }
 

@@ -41,14 +41,11 @@ fun AppUsageSection(
     viewModel: AppUsageViewModel = hiltViewModel()
 ) {
     val appUsageList by viewModel.appUsage
-    val context = LocalContext.current
 
-val showAll by remember {mutableStateOf(false)}
+    val showAll by remember {mutableStateOf(false)}
     val displayedApps = if (showAll) appUsageList else appUsageList.take(4)
     // Load the data when the screen appears
-    LaunchedEffect(Unit) {
-        viewModel.getAppUsageStats()
-    }
+    // (Loaded in HomeScreen)
 
     Column() {
 

@@ -1,5 +1,6 @@
 package com.indianathe3rd.identity.domain.usecase.usage
 
+import android.util.Log
 import com.indianathe3rd.identity.domain.model.CategoryUsage
 import com.indianathe3rd.identity.domain.model.ClassifiedAppUsage
 import javax.inject.Inject
@@ -25,6 +26,7 @@ class GetCategoryUsageSummaryUsecase @Inject constructor(
                 category = getClassifiedAppUsecase(app.packageName)
             )
         }
+        Log.e(TAG, "Classified Apps Usage: $classifiedAppsUsage")
 
         val categoryMap = classifiedAppsUsage
             .groupBy { it.category }
@@ -42,5 +44,9 @@ class GetCategoryUsageSummaryUsecase @Inject constructor(
         }
 
         return categories
+    }
+
+    companion object{
+        private const val TAG = "GetCategoryUsageSummaryUsecase"
     }
 }
