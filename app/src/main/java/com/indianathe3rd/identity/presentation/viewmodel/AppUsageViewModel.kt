@@ -14,6 +14,7 @@ import com.indianathe3rd.identity.domain.model.CategoryUsage
 import com.indianathe3rd.identity.domain.repository.ClassificationRepository
 import com.indianathe3rd.identity.domain.usecase.usage.GetAppsUsageUsecase
 import com.indianathe3rd.identity.domain.usecase.usage.GetCategoryUsageSummaryUsecase
+import com.indianathe3rd.identity.domain.usecase.usage.GetClassifiedAppsUsageUsecase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.ktor.http.ContentType
 import kotlinx.coroutines.launch
@@ -25,7 +26,8 @@ class AppUsageViewModel @Inject constructor(
 
     private val getAppUsageUsecase: GetAppsUsageUsecase,
     private val classificationRepo: ClassificationRepository,
-    private val getCategory: GetCategoryUsageSummaryUsecase
+    private val getCategory: GetCategoryUsageSummaryUsecase,
+    private val getClassisfiedAppsUsageCase : GetClassifiedAppsUsageUsecase
 ) : ViewModel() {
 
     private val _appUsage = mutableStateOf<List<AppUsage>>(emptyList())
@@ -49,6 +51,10 @@ class AppUsageViewModel @Inject constructor(
                     endTime = endtime,
                     intervalType = intervalType
                 )
+                appsUsage.map{
+                    app->
+                    testClassification(app.packageName)
+                }
                 _appUsage.value = appsUsage
                 Log.d(TAG, " AppUsage: $appsUsage")
 
@@ -88,6 +94,7 @@ class AppUsageViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 Log.e(TAG, "Fetching category usage summary")
+
                 val categoryUsageSummary = getCategory(
                     beginTime = startTime,
                     endTime = endtime,
@@ -104,6 +111,7 @@ class AppUsageViewModel @Inject constructor(
     fun testClassification(packageName: String) {
         viewModelScope.launch {
             try {
+                Log.d(TAG, "Testing classification for package: $packageName")
                 val result = classificationRepo.createClassification(packageName)
                 Log.d(TAG, "Classification Result -> $result")
             } catch (e: Exception) {

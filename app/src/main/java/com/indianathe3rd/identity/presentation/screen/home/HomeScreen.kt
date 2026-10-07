@@ -22,16 +22,20 @@ import com.indianathe3rd.identity.presentation.viewmodel.AppUsageViewModel
 import com.indianathe3rd.identity.presentation.viewmodel.PermissionViewmodel
 
 @Composable
-fun HomeScreen(permissionViewmodel: PermissionViewmodel = hiltViewModel(),viewmodel: AppUsageViewModel = hiltViewModel()) {
+fun HomeScreen(
+    permissionViewmodel: PermissionViewmodel = hiltViewModel(),
+    viewmodel: AppUsageViewModel = hiltViewModel()
+) {
 
     val isPermissionGranted = permissionViewmodel.isUsageAccessGranted()
     val context = LocalContext.current
-    if (!isPermissionGranted){
-    PermissionsAlertDialog(
-        onAccept = {permissionViewmodel.requestUsageAccessPermission()},
-        onDismiss =    {(context as? Activity)?.finish()} ,
-        onTutorial = { TutorialScreen()}
-    )}
+    if (!isPermissionGranted) {
+        PermissionsAlertDialog(
+            onAccept = { permissionViewmodel.requestUsageAccessPermission() },
+            onDismiss = { (context as? Activity)?.finish() },
+            onTutorial = { TutorialScreen() }
+        )
+    }
 
 
     LaunchedEffect(Unit) {
@@ -41,7 +45,7 @@ fun HomeScreen(permissionViewmodel: PermissionViewmodel = hiltViewModel(),viewmo
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(4.dp,8.dp),
+            .padding(4.dp, 8.dp),
 
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
