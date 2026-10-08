@@ -1,9 +1,39 @@
+import java.io.FileInputStream
+import java.io.InputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+
 }
+
+// Load from local.properties
+val localProps = Properties()
+val localPropsFile = File(rootProject.projectDir, "local.properties")
+if (localPropsFile.exists() && localPropsFile.isFile) {
+    localPropsFile.inputStream().use { input: InputStream ->
+        localProps.load(input)
+    }
+}
+val openAPIKey = (localProps.getProperty("OPENAI_API_KEY")
+    ?: project.findProperty("OPENAI_API_KEY") as String?)
+    .orEmpty()
+    .trim()
+    .removeSurrounding("\"")
+val supabaseUrl = (localProps.getProperty("SUPABASE_URL")
+    ?: project.findProperty("SUPABASE_URL") as String?)
+    .orEmpty()
+    .trim()
+    .removeSurrounding("\"")
+val supabaseKey = (localProps.getProperty("SUPABASE_KEY")
+    ?: project.findProperty("SUPABASE_KEY") as String?)
+    .orEmpty()
+    .trim()
+    .removeSurrounding("\"")
+
 
 android {
     namespace = "com.indianathe3rd.identity"
@@ -19,6 +49,11 @@ android {
         versionName = "1.0.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "OPENAI_API_KEY", "\"$openAPIKey\"")
+        buildConfigField("String", "SUPABASE_URL", "\"$supabaseUrl\"")
+        buildConfigField("String", "SUPABASE_KEY", "\"$supabaseKey\"")
+
     }
 
     buildTypes {
@@ -34,6 +69,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
