@@ -6,7 +6,7 @@ import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
 
 object SupabaseClient {
-    val client = createSupabaseClient(
+    val supabase = createSupabaseClient(
         supabaseUrl = Config.SUPABASE_URL,
         supabaseKey = Config.SUPABASE_KEY
     ){

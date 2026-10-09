@@ -8,4 +8,6 @@ import kotlinx.coroutines.flow.Flow
 interface AuthRepository {
     suspend fun signUp(signUp: SignUpRequest): Flow<AuthResponse>
     suspend fun signIn(signIn: SignInRequest): Flow<AuthResponse>
+    suspend fun createNonce(): String
+    suspend fun logiWithGoogle()
 }
