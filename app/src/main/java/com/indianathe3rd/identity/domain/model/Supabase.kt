@@ -12,6 +12,7 @@ data class Profile(
     val id: String,
     val email: String,
     val username: String? = null,
+    val avatar_url: String? = null,
     val created_at: String? = null,
     val updated_at: String? = null
 )

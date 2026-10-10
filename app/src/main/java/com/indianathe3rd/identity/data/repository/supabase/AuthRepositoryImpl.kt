@@ -11,8 +11,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.security.MessageDigest
 import java.util.UUID
+import javax.inject.Inject
 
-class AuthRepositoryImpl(
+class AuthRepositoryImpl @Inject constructor(
     private val auth: Auth
 ): AuthRepository {
     override suspend fun signUp(signUp: SignUpRequest): Flow<AuthResponse> = flow {
