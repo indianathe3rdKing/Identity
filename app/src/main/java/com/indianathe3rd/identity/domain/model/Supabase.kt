@@ -2,9 +2,9 @@ package com.indianathe3rd.identity.domain.model
 
 import kotlinx.serialization.Serializable
 
-sealed interface AuthResponse {
-    data object Success : AuthResponse
-    data class Error(val message: String?) : AuthResponse
+sealed interface Result {
+    data object Success : Result
+    data class Error(val message: String?) : Result
 }
 
 @Serializable
