@@ -1,10 +1,10 @@
 package com.indianathe3rd.identity.data.repository.supabase
 
-import com.indianathe3rd.identity.data.remote.SupabaseClient
 import com.indianathe3rd.identity.domain.model.AuthResponse
 import com.indianathe3rd.identity.domain.model.SignInRequest
 import com.indianathe3rd.identity.domain.model.SignUpRequest
 import com.indianathe3rd.identity.domain.repository.supabase.AuthRepository
+import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.builtin.Email
 import kotlinx.coroutines.flow.Flow
@@ -12,13 +12,15 @@ import kotlinx.coroutines.flow.flow
 import java.security.MessageDigest
 import java.util.UUID
 
-class AuthRepositoryImpl(): AuthRepository {
+class AuthRepositoryImpl(
+    private val auth: Auth
+): AuthRepository {
     override suspend fun signUp(signUp: SignUpRequest): Flow<AuthResponse> = flow {
         try {
-            SupabaseClient.supabase.auth.signUpWith(Email){
-                email = signUp.email
-                password = signUp.password
-            }
+           auth.signUpWith(Email){
+               email=signUp.email
+               password=signUp.password
+           }
         }catch (e: Exception){
             emit(AuthResponse.Error(e.message))
         }
@@ -26,7 +28,7 @@ class AuthRepositoryImpl(): AuthRepository {
 
     override suspend fun signIn(signIn: SignInRequest): Flow<AuthResponse> = flow {
         try {
-            SupabaseClient.supabase.auth.signInWith(Email){
+            auth.signInWith(Email){
                 email = signIn.email
                 password = signIn.password
             }
