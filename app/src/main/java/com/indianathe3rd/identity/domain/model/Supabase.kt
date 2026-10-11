@@ -9,12 +9,12 @@ sealed interface Result {
 
 @Serializable
 data class Profile(
-    val id: String,
-    val email: String,
-    val username: String? = null,
-    val avatar_url: String? = null,
-    val created_at: String? = null,
-    val updated_at: String? = null
+    val id: String = "",
+    val email: String = "",
+    val username: String? = "",
+    val avatar_url: String? = "",
+    val created_at: String? = "",
+    val updated_at: String? = ""
 )
 
 @Serializable
@@ -29,7 +29,9 @@ data class SupabaseUser(
 @Serializable
 data class SignUpRequest(
     val email: String,
-    val password: String
+    val username: String,
+    val password: String,
+    val avatar: String?
 )
 
 @Serializable

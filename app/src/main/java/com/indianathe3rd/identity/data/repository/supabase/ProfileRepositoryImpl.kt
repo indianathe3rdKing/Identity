@@ -52,7 +52,6 @@ class ProfileRepositoryImpl @Inject constructor(
     override suspend fun updateProfile(profile: Profile) {
         try {
 
-
             withContext(Dispatchers.IO) {
                 postgrest.from("profile").update({
                     set("username", profile.username)
