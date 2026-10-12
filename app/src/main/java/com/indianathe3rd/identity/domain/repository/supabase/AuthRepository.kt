@@ -6,8 +6,8 @@ import com.indianathe3rd.identity.domain.model.SignUpRequest
 import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {
-    suspend fun signUp(signUp: SignUpRequest): Flow<Result>
+    suspend fun signUp(signUp: SignInRequest): Flow<Result>
     suspend fun signIn(signIn: SignInRequest): Flow<Result>
     suspend fun createNonce(): String
-    suspend fun logiWithGoogle()
+    suspend fun logiWithGoogle(): Flow<Result>
 }

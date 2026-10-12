@@ -16,7 +16,7 @@ import javax.inject.Inject
 class AuthRepositoryImpl @Inject constructor(
     private val auth: Auth
 ): AuthRepository {
-    override suspend fun signUp(signUp: SignUpRequest): Flow<Result> = flow {
+    override suspend fun signUp(signUp: SignInRequest): Flow<Result> = flow {
         try {
            auth.signUpWith(Email){
                email=signUp.email

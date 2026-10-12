@@ -3,6 +3,7 @@ package com.indianathe3rd.identity.presentation.viewmodel
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.indianathe3rd.identity.domain.model.SignInRequest
 import com.indianathe3rd.identity.domain.model.SignUpRequest
 import com.indianathe3rd.identity.domain.repository.supabase.AuthRepository
 import com.indianathe3rd.identity.domain.usecase.supabase.auth.SignInUsecase
@@ -17,7 +18,7 @@ import javax.inject.Inject
 class AuthViewModel @Inject constructor(
     private val signInCase: SignInUsecase,
     private val signUpCase: SignUpUsecase
-): ViewModel() {
+) : ViewModel() {
 
     private val _email = MutableStateFlow("")
     val email: Flow<String> = _email
@@ -31,27 +32,45 @@ class AuthViewModel @Inject constructor(
     private val _avatar_url = MutableStateFlow("")
     val avatar_url = _avatar_url
 
-    private val _profile = mutableStateOf(SignUpRequest(
-        email = _email.value,
-        username = _username.value,
-        password = _password.value,
-        avatar = _avatar_url.value
-    ))
+    private val _profile = mutableStateOf(
+        SignUpRequest(
+            email = _email.value,
+            username = _username.value,
+            password = _password.value,
+            avatar = _avatar_url.value
+        )
+    )
+
     val profile = _profile
 
-    fun onEmailChange(email: String){
+    private val _authCredentials = mutableStateOf(
+        SignInRequest(
+            email = _email.value,
+            password = _password.value
+        )
+    )
+
+    fun onEmailChange(email: String) {
         _email.value = email
     }
 
-    fun onPasswordChange(password: String){
+    fun onPasswordChange(password: String) {
         _password.value = password
     }
 
-    fun onSignUp(){
+    fun onSignUp() {
         viewModelScope.launch {
-           signUpCase(
-             profile.value
-           )
+            signUpCase(
+                _authCredentials.value
+            )
+        }
+    }
+
+    fun onSignIn(){
+        viewModelScope.launch {
+            signInCase(
+                _authCredentials.value
+            )
         }
     }
 }
