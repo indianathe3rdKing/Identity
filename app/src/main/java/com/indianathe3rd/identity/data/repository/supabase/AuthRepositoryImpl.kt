@@ -5,6 +5,7 @@ import com.indianathe3rd.identity.domain.model.SignInRequest
 import com.indianathe3rd.identity.domain.model.SignUpRequest
 import com.indianathe3rd.identity.domain.repository.supabase.AuthRepository
 import io.github.jan.supabase.auth.Auth
+import io.github.jan.supabase.auth.providers.Google
 import io.github.jan.supabase.auth.providers.builtin.Email
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -21,6 +22,7 @@ class AuthRepositoryImpl @Inject constructor(
                email=signUp.email
                password=signUp.password
            }
+            Result.Success
         }catch (e: Exception){
             emit(Result.Error(e.message))
         }
@@ -32,6 +34,7 @@ class AuthRepositoryImpl @Inject constructor(
                 email = signIn.email
                 password = signIn.password
             }
+            Result.Success
         }catch (e: Exception){
             emit(Result.Error(e.localizedMessage))
         }
@@ -45,7 +48,12 @@ class AuthRepositoryImpl @Inject constructor(
         return digest.fold(""){str, it -> str+ "%02x".format(it)}
     }
 
-    override suspend fun logiWithGoogle() {
-        TODO("Not yet implemented")
+    override suspend fun logiWithGoogle(): Flow<Result> = flow{
+        try {
+            auth.signInWith(Google)
+            Result.Success
+        }catch (e: Exception){
+            emit(Result.Error(e.localizedMessage))
+        }
     }
 }
