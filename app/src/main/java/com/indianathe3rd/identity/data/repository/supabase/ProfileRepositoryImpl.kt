@@ -27,7 +27,7 @@ class ProfileRepositoryImpl @Inject constructor(
             Result.Success
         } catch (e: Exception) {
             e.printStackTrace()
-            Result.Error(e.localizedMessage)
+            Result.Error(e.localizedMessage ?: "Unknown Error")
         }
     }
 
@@ -43,7 +43,7 @@ class ProfileRepositoryImpl @Inject constructor(
                 }.decodeSingleOrNull()
             }
         } catch (e: Exception) {
-            Result.Error(e.localizedMessage)
+            Result.Error(e.localizedMessage ?: "Unknown Error")
             null
         }
     }
@@ -60,7 +60,7 @@ class ProfileRepositoryImpl @Inject constructor(
                 })
             }
         } catch (e: Exception) {
-            Result.Error(e.localizedMessage)
+            Result.Error(e.localizedMessage ?: "Unknown Error")
         }
     }
 

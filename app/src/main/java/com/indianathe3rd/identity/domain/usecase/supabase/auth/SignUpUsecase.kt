@@ -9,5 +9,5 @@ import javax.inject.Inject
 class SignUpUsecase @Inject constructor(
     private val repository: AuthRepository
 ) {
-    suspend operator fun invoke(signUp: SignInRequest): Flow<Result> = repository.signUp(signUp)
+    suspend operator fun invoke(signUp: SignInRequest): Result = repository.signUp(signUp)
 }

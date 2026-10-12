@@ -7,6 +7,7 @@ import com.indianathe3rd.identity.domain.model.SignInRequest
 import com.indianathe3rd.identity.domain.model.SignUpRequest
 import com.indianathe3rd.identity.domain.repository.supabase.AuthRepository
 import com.indianathe3rd.identity.domain.usecase.supabase.auth.SignInUsecase
+import com.indianathe3rd.identity.domain.usecase.supabase.auth.SignInWithGoogle
 import com.indianathe3rd.identity.domain.usecase.supabase.auth.SignUpUsecase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -17,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     private val signInCase: SignInUsecase,
-    private val signUpCase: SignUpUsecase
+    private val signUpCase: SignUpUsecase,
+    private val signInWithGoogle: SignInWithGoogle
 ) : ViewModel() {
 
     private val _email = MutableStateFlow("")
@@ -66,11 +68,17 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    fun onSignIn(){
+    fun onSignIn() {
         viewModelScope.launch {
             signInCase(
                 _authCredentials.value
             )
+        }
+    }
+
+    fun onSignInWithGoogle() {
+        viewModelScope.launch {
+            signInWithGoogle()
         }
     }
 }
