@@ -12,6 +12,7 @@ import com.indianathe3rd.identity.domain.usecase.supabase.auth.SignUpUsecase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,16 +24,16 @@ class AuthViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _email = MutableStateFlow("")
-    val email: Flow<String> = _email
+    val email = _email.asSharedFlow()
 
     private val _password = MutableStateFlow("")
-    val password: Flow<String> = _password
+    val password = _password.asSharedFlow()
 
     private val _username = MutableStateFlow("")
     val username = _username
 
     private val _avatar_url = MutableStateFlow("")
-    val avatar_url = _avatar_url
+    val avatar_url = _avatar_url.asSharedFlow()
 
     private val _profile = mutableStateOf(
         SignUpRequest(
