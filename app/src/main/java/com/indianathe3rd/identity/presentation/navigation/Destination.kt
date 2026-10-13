@@ -1,4 +1,4 @@
-package com.indianathe3rd.identity.domain.repository
+package com.indianathe3rd.identity.presentation.navigation
 
 interface Destination {
     val route: String
@@ -13,4 +13,9 @@ object SignUpDestination: Destination {
 object AuthenticationDestination: Destination{
     override val route = "authentication"
     override val title = "Authentication"
+}
+
+object RootDestination: Destination{
+    override val route = "main"
+    override val title = "Main"
 }

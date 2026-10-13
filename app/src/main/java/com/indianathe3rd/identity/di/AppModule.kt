@@ -4,10 +4,13 @@ import android.content.Context
 import com.indianathe3rd.identity.data.Config
 import com.indianathe3rd.identity.data.repository.ClassificationRepositoryImpl
 import com.indianathe3rd.identity.data.repository.UsageRepositoryImpl
+import com.indianathe3rd.identity.data.repository.supabase.AuthRepositoryImpl
 import com.indianathe3rd.identity.domain.repository.ClassificationRepository
 import com.indianathe3rd.identity.domain.repository.UsageRepository
+import com.indianathe3rd.identity.domain.repository.supabase.AuthRepository
 import com.indianathe3rd.identity.domain.usecase.usage.GetAppNameUsecase
 import com.indianathe3rd.identity.domain.usecase.usage.GetAppsUsageUsecase
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -62,7 +65,10 @@ object AppModule {
             supabaseKey = Config.SUPABASE_KEY
         ){
             install(Postgrest)
-            install(Auth)
+            install(Auth){
+                host = "login-callback"
+                scheme = "identity"
+            }
             install(Storage)
         }
     }
@@ -85,5 +91,13 @@ object AppModule {
         return client.storage
     }
 
+    @Module
+    @InstallIn(SingletonComponent::class)
+    abstract class RepositoryModule{
+        @Binds
+        abstract fun bindAuthRepository(
+            impl: AuthRepositoryImpl
+        ): AuthRepository
+    }
 
 }

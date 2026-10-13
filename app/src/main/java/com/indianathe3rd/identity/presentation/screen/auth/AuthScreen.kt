@@ -1,6 +1,5 @@
 package com.indianathe3rd.identity.presentation.screen.auth
 
-import android.graphics.drawable.Icon
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -22,7 +21,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ExperimentalComposeApi
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -30,7 +31,8 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.indianathe3rd.identity.domain.repository.SignUpDestination
+import com.indianathe3rd.identity.domain.model.Result
+import com.indianathe3rd.identity.presentation.navigation.SignUpDestination
 import com.indianathe3rd.identity.presentation.viewmodel.AuthViewModel
 import kotlinx.coroutines.launch
 
@@ -39,10 +41,27 @@ import kotlinx.coroutines.launch
 fun AuthScreen(
     modifier: Modifier = Modifier,
     navController: NavController,
-    viewModel: AuthViewModel = hiltViewModel()
+    viewModel: AuthViewModel = hiltViewModel(),
+    onLoginScreen: () -> Unit
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
+    val authState by viewModel.authState.collectAsState()
+
+    LaunchedEffect(authState) {
+        when (authState) {
+            is Result.Success -> {
+                onLoginScreen()
+            }
+            is Result.Loading->{
+
+            }
+            is Result.Idle -> Unit
+            else -> {
+                Result.Error("Something went wrong")
+            }
+        }
+    }
     Scaffold(
         snackbarHost = { SnackbarHost(snackBarHostState) },
         topBar = {
@@ -143,12 +162,12 @@ fun AuthScreen(
             OutlinedButton(
                 modifier = modifier
                     .fillMaxWidth()
-                    .padding(top= 12.dp),
+                    .padding(top = 12.dp),
                 onClick = {
                     navController.navigate(SignUpDestination.route)
                 }
             ) {
-                Text("Sign up")
+                Text("Sign up,not real")
             }
         }
     }

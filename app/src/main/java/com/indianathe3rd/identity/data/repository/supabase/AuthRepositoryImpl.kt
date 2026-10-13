@@ -6,6 +6,8 @@ import com.indianathe3rd.identity.domain.repository.supabase.AuthRepository
 import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.auth.providers.Google
 import io.github.jan.supabase.auth.providers.builtin.Email
+import io.github.jan.supabase.auth.status.SessionStatus
+import kotlinx.coroutines.flow.StateFlow
 import java.security.MessageDigest
 import java.util.UUID
 import javax.inject.Inject
@@ -13,6 +15,7 @@ import javax.inject.Inject
 class AuthRepositoryImpl @Inject constructor(
     private val auth: Auth
 ) : AuthRepository {
+    override val sessionStatus: StateFlow<SessionStatus> = auth.sessionStatus
     override suspend fun signUp(signUp: SignInRequest): Result {
         return try {
             auth.signUpWith(Email) {

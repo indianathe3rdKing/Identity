@@ -28,7 +28,9 @@ import com.indianathe3rd.identity.presentation.screen.usage.UsageScreen
 import com.indianathe3rd.identity.presentation.ui.icons.Icons
 
 @Composable
-fun AppNavigation() {
+fun AppNavigation(
+
+) {
     var selectTabIndex by remember{
         mutableStateOf(0)
     }
