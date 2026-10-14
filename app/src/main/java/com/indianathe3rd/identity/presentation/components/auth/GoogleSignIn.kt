@@ -25,7 +25,7 @@ fun GoogleSignIn(signIn: () -> Unit) {
             painter = painterResource(R.drawable.icon_google),
             contentDescription = "Google Icon",
             modifier = Modifier
-                .size(24.dp)
+                .size(30.dp)
         )
         Spacer(modifier = Modifier.width(4.dp))
         Text(

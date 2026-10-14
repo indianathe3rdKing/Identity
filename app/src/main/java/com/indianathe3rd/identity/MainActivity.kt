@@ -5,8 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
@@ -33,41 +32,41 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
 
         supabaseClient.handleDeeplinks(intent)
 
-        enableEdgeToEdge()
         setContent {
             IdentityTheme {
                 val navController = rememberNavController()
                 val currentBackStack by navController.currentBackStackEntryAsState()
                 val currentDestination = currentBackStack?.destination
-                Scaffold { innerPadding ->
-                    NavHost(
-                        navController,
-                        startDestination = AuthenticationDestination.route,
-                        Modifier.padding(innerPadding)
-                    ) {
-                        composable(RootDestination.route) {
-                            AppNavigation()
-                        }
+                NavHost(
+                    navController = navController,
+                    startDestination = AuthenticationDestination.route,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    composable(RootDestination.route) {
+                        AppNavigation()
+                    }
 
-                        composable(AuthenticationDestination.route) {
-                            AuthScreen(
-                                navController = navController,
-                                onLoginScreen = {
-                                    navController.navigate(RootDestination.route) {
-                                        popUpTo(AuthenticationDestination.route) { inclusive = true }
+                    composable(AuthenticationDestination.route) {
+                        AuthScreen(
+                            navController = navController,
+                            onLoginScreen = {
+                                navController.navigate(RootDestination.route) {
+                                    popUpTo(AuthenticationDestination.route) {
+                                        inclusive = true
                                     }
                                 }
-                            )
-                        }
+                            }
+                        )
+                    }
 
-                        composable(SignUpDestination.route) {
-                            SignUpScreen(
-                                navController = navController
-                            )
-                        }
+                    composable(SignUpDestination.route) {
+                        SignUpScreen(
+                            navController = navController
+                        )
                     }
                 }
             }
