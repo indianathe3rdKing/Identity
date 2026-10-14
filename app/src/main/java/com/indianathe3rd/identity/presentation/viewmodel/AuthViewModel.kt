@@ -27,16 +27,16 @@ class AuthViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _email = MutableStateFlow("")
-    val email = _email.asSharedFlow()
+    val email = _email.asStateFlow()
 
     private val _password = MutableStateFlow("")
-    val password = _password.asSharedFlow()
+    val password = _password.asStateFlow()
 
     private val _username = MutableStateFlow("")
     val username = _username
 
     private val _avatar_url = MutableStateFlow("")
-    val avatar_url = _avatar_url.asSharedFlow()
+    val avatar_url = _avatar_url.asStateFlow()
 
     private val _profile = mutableStateOf(
         SignUpRequest(

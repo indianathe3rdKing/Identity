@@ -13,6 +13,8 @@
 
     <application
         android:name=".IdentityApplication"
+        android:windowSoftInputMode = "adjustResize"
+        android:exported="true"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"

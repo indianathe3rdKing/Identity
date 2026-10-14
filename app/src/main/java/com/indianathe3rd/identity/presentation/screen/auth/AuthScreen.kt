@@ -4,16 +4,33 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.relocation.BringIntoViewRequester
+import androidx.compose.foundation.relocation.bringIntoViewRequester
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.LaunchedEffect
@@ -23,9 +40,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
+import androidx.compose.ui.focus.onFocusEvent
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -35,9 +61,12 @@ import com.indianathe3rd.identity.presentation.components.auth.GoogleSignIn
 import com.indianathe3rd.identity.presentation.components.auth.Gradient
 import com.indianathe3rd.identity.presentation.components.auth.RegisterHeader
 import com.indianathe3rd.identity.presentation.ui.theme.Black
+import com.indianathe3rd.identity.presentation.ui.theme.DarkGray
+import com.indianathe3rd.identity.presentation.ui.theme.TextPrimary
 import com.indianathe3rd.identity.presentation.ui.theme.TextSecondary
 import com.indianathe3rd.identity.presentation.ui.theme.White
 import com.indianathe3rd.identity.presentation.viewmodel.AuthViewModel
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeApi::class)
 @Composable
@@ -49,16 +78,23 @@ fun AuthScreen(
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
+    val bringIntoViewRequester = remember { BringIntoViewRequester() }
     val authState by viewModel.authState.collectAsState()
     val localSoftwareKeyboardController = LocalSoftwareKeyboardController.current
+    val email by viewModel.email.collectAsState()
+    val password by viewModel.password.collectAsState()
     LaunchedEffect(authState) {
         when (authState) {
             is Result.Success -> {
                 onLoginScreen()
             }
-            is Result.Loading->{
 
+            is Result.Loading -> {
+                snackBarHostState.showSnackbar(
+                    message = ""
+                )
             }
+
             is Result.Idle -> Unit
             else -> {
                 Result.Error("Something went wrong")
@@ -69,16 +105,20 @@ fun AuthScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Black),
+            .background(Black)
+            .padding(top = 22.dp)
+            .verticalScroll(rememberScrollState()),
         contentAlignment = Alignment.TopCenter
-    ){
+    ) {
         Gradient()
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 20.dp)
-                .padding(top = 110.dp),
+                .padding(top = 110.dp)
+                .navigationBarsPadding()
+                .imePadding(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             RegisterHeader()
@@ -87,6 +127,179 @@ fun AuthScreen(
                 localSoftwareKeyboardController?.hide()
                 viewModel.onSignInWithGoogle()
             })
+
+            Row(
+                modifier = Modifier
+                    .padding(vertical = 20.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(1.dp)
+                        .background(White.copy(0.2f))
+                )
+                Text(
+                    text = "Or",
+                    color = White.copy(0.7f),
+                    modifier = Modifier.padding(horizontal = 10.dp)
+                )
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(1.dp)
+                        .background(White.copy(0.2f))
+                )
+            }
+
+            Column(
+                horizontalAlignment = Alignment.Start
+            ) {
+                Text(
+
+                    text = "Email",
+                    color = White,
+                    fontWeight = FontWeight.Bold
+                )
+
+                Spacer(
+                    modifier = Modifier
+                        .height(4.dp)
+                )
+                TextField(
+                    value = email,
+                    onValueChange = { newValue ->
+                        viewModel.onEmailChange(newValue)
+                    },
+                    placeholder = {
+                        Text(
+                            text = "john.doe@example.com",
+                            color = White.copy(0.7f)
+                        )
+                    },
+                    shape = RoundedCornerShape(10.dp),
+                    colors = TextFieldDefaults.colors(
+                        unfocusedIndicatorColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent,
+                        focusedContainerColor = DarkGray,
+                        unfocusedContainerColor = DarkGray
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .bringIntoViewRequester(bringIntoViewRequester)
+                        .onFocusEvent { focusState ->
+                            if (focusState.isFocused) {
+                                coroutineScope.launch {
+                                    bringIntoViewRequester.bringIntoView()
+                                }
+                            }
+                        },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Email,
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            localSoftwareKeyboardController?.hide()
+
+                        }
+                    )
+                )
+            }
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Column(
+                horizontalAlignment = Alignment.Start
+            ) {
+                Text(
+
+                    text = "Password",
+                    color = White,
+                    fontWeight = FontWeight.Bold
+                )
+
+                Spacer(
+                    modifier = Modifier
+                        .height(4.dp)
+                )
+                TextField(
+                    value = password,
+                    onValueChange = { newValue ->
+                        viewModel.onPasswordChange(newValue)
+                    },
+                    placeholder = {
+                        Text(
+                            text = "Enter your password",
+                            color = White.copy(0.7f)
+                        )
+                    },
+                    shape = RoundedCornerShape(10.dp),
+                    colors = TextFieldDefaults.colors(
+                        unfocusedIndicatorColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent,
+                        focusedContainerColor = DarkGray,
+                        unfocusedContainerColor = DarkGray
+                    ),
+                    visualTransformation = PasswordVisualTransformation(),
+                    modifier = Modifier.fillMaxWidth(),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Password,
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            localSoftwareKeyboardController?.hide()
+
+                        }
+                    )
+                )
+                Spacer(modifier = Modifier.height(35.dp))
+                Button(
+                    onClick = {
+                        viewModel.onSignUp()
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = White
+                    ),
+                    shape = RoundedCornerShape(10.dp),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        text = "Sign up",
+                        modifier = Modifier.padding(vertical = 4.dp), color = TextPrimary
+                    )
+                }
+
+
+            }
+
+            Spacer(modifier = Modifier.height(25.dp))
+            TextButton(
+                onClick = {},
+
+                ) {
+                Text(
+                    text = buildAnnotatedString {
+                        withStyle(
+                            style = SpanStyle(
+                                fontWeight = FontWeight.Light,
+                                color = White.copy(0.8f)
+                            )
+                        ) {
+                            append("Already have an account? ")
+                        }
+                        withStyle(
+                            style = SpanStyle(
+                                fontWeight = FontWeight.Bold,
+                                color = White
+                            )
+                        ) {
+                            append("Log in")
+                        }
+
+                    }
+                )
+            }
         }
     }
 //    Scaffold(
