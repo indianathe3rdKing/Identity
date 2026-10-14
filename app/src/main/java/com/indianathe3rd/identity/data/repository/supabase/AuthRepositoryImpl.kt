@@ -51,7 +51,7 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun logiWithGoogle(): Result {
         return try {
             auth.signInWith(Google)
-            Result.Success
+            Result.Idle
         } catch (e: Exception) {
             Result.Error(e.localizedMessage ?: "Unknown Error")
         }

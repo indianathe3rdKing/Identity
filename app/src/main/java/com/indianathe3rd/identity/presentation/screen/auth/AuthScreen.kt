@@ -23,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -49,7 +50,7 @@ fun AuthScreen(
     val snackBarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
     val authState by viewModel.authState.collectAsState()
-
+    val localSoftwareKeyboardController = LocalSoftwareKeyboardController.current
     LaunchedEffect(authState) {
         when (authState) {
             is Result.Success -> {
@@ -82,7 +83,10 @@ fun AuthScreen(
         ) {
             RegisterHeader()
             Spacer(modifier = Modifier.height(35.dp))
-            GoogleSignIn({})
+            GoogleSignIn({
+                localSoftwareKeyboardController?.hide()
+                viewModel.onSignInWithGoogle()
+            })
         }
     }
 //    Scaffold(

@@ -105,8 +105,12 @@ class AuthViewModel @Inject constructor(
     fun onSignInWithGoogle() {
         viewModelScope.launch {
             _authState.value = Result.Loading
-          val result =  signInWithGoogle()
-            _authState.value = result
+            val result = signInWithGoogle()
+            if (result is Result.Error) {
+                _authState.value = result
+            } else {
+                _authState.value = Result.Idle
+            }
         }
     }
 }
