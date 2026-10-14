@@ -30,6 +30,7 @@ coil = "3.6.3"
 secrets-gradle-plugin = "2.0.1"
 
 openai = "4.0.0"
+uiGraphics = "1.12.1"
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -83,6 +84,7 @@ secrets-gradle-plugin-android = { module = "com.google.android.libraries.mapspla
 
 #Coil
 coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
+androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics", version.ref = "uiGraphics" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

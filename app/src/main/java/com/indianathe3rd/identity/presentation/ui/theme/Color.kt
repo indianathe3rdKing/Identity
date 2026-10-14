@@ -39,3 +39,13 @@ val SoftPink = Color(0xFFFFF0F5)
 // Dark mode support (optional for later)
 val BackgroundDark = Color(0xFF0F111A)
 val SurfaceDark = Color(0xFF1A1C2E)
+
+//Base Color
+// ui/theme/AuthColors.kt
+
+
+val Purple = Color(0xFFAF61E2)
+val DarkPurple = Color(0xFF2D115A)
+val Black = Color(0xFF010101)
+val DarkGray = Color(0xFF1A1A1A)
+val White = Color.White

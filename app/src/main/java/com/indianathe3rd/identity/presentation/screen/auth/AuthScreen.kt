@@ -1,24 +1,19 @@
 package com.indianathe3rd.identity.presentation.screen.auth
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBackIos
-import androidx.compose.material3.Button
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarDuration
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.LaunchedEffect
@@ -26,15 +21,22 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.indianathe3rd.identity.R
 import com.indianathe3rd.identity.domain.model.Result
-import com.indianathe3rd.identity.presentation.navigation.SignUpDestination
+import com.indianathe3rd.identity.presentation.components.auth.GoogleSignIn
+import com.indianathe3rd.identity.presentation.components.auth.Gradient
+import com.indianathe3rd.identity.presentation.components.auth.RegisterHeader
+import com.indianathe3rd.identity.presentation.ui.theme.Black
+import com.indianathe3rd.identity.presentation.ui.theme.TextSecondary
+import com.indianathe3rd.identity.presentation.ui.theme.White
 import com.indianathe3rd.identity.presentation.viewmodel.AuthViewModel
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeApi::class)
 @Composable
@@ -62,113 +64,134 @@ fun AuthScreen(
             }
         }
     }
-    Scaffold(
-        snackbarHost = { SnackbarHost(snackBarHostState) },
-        topBar = {
-            TopAppBar(
-                navigationIcon = {
-                    IconButton(onClick = {
-                        navController.navigateUp()
-                    }) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBackIos,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onPrimary
-                        )
-                    }
 
-                },
-//                backgroundColor = MaterialTheme.colorScheme.primary,
-                title = {
-                    Text(
-                        text = "Login",
-                        color = MaterialTheme.colorScheme.onPrimary
-                    )
-                }
-            )
-        }
-    ) { paddingValues ->
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Black),
+        contentAlignment = Alignment.TopCenter
+    ){
+        Gradient()
+
         Column(
-            modifier = modifier
-                .padding(paddingValues)
-                .padding(20.dp)
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 20.dp)
+                .padding(top = 110.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            val email = viewModel.email.collectAsState("")
-            val password = viewModel.password.collectAsState("")
-            OutlinedTextField(
-                label = {
-                    Text(
-                        text = "Email",
-                        color = MaterialTheme.colorScheme.primary,
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                },
-                maxLines = 1,
-                shape = RoundedCornerShape(32),
-                modifier = modifier.fillMaxWidth(),
-                value = email.value,
-                onValueChange = {
-                    viewModel.onEmailChange(it)
-                }
-            )
-            OutlinedTextField(
-                label = {
-                    Text(
-                        text = "Password",
-                        color = MaterialTheme.colorScheme.primary,
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                },
-                maxLines = 1,
-                shape = RoundedCornerShape(32),
-                modifier = modifier
-                    .fillMaxWidth()
-                    .padding(top = 12.dp),
-                value = password.value,
-                onValueChange = {
-                    viewModel.onPasswordChange(it)
-                }
-            )
-            val localSoftwareKeyboardController =
-                LocalSoftwareKeyboardController.current
-            Button(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .padding(top = 12.dp),
-                onClick = {
-                    localSoftwareKeyboardController?.hide()
-                    viewModel.onSignInWithGoogle()
-                }
-            ) {
-                Text("Sign in with Google")
-            }
-            Button(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .padding(top = 12.dp),
-                onClick = {
-                    localSoftwareKeyboardController?.hide()
-                    viewModel.onSignIn()
-                    coroutineScope.launch {
-                        snackBarHostState.showSnackbar(
-                            message = "Sign in successfully !",
-                            duration = SnackbarDuration.Long
-                        )
-                    }
-                }
-            ) {
-                Text("Sign in")
-            }
-            OutlinedButton(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .padding(top = 12.dp),
-                onClick = {
-                    navController.navigate(SignUpDestination.route)
-                }
-            ) {
-                Text("Sign up,not real")
-            }
+            RegisterHeader()
+            Spacer(modifier = Modifier.height(35.dp))
+            GoogleSignIn({})
         }
     }
+//    Scaffold(
+//        snackbarHost = { SnackbarHost(snackBarHostState) },
+//        topBar = {
+//            TopAppBar(
+//                navigationIcon = {
+//                    IconButton(onClick = {
+//                        navController.navigateUp()
+//                    }) {
+//                        Icon(
+//                            imageVector = Icons.Filled.ArrowBackIos,
+//                            contentDescription = null,
+//                            tint = MaterialTheme.colorScheme.onPrimary
+//                        )
+//                    }
+//
+//                },
+////                backgroundColor = MaterialTheme.colorScheme.primary,
+//                title = {
+//                    Text(
+//                        text = "Login",
+//                        color = MaterialTheme.colorScheme.onPrimary
+//                    )
+//                }
+//            )
+//        }
+//    ) { paddingValues ->
+//        Column(
+//            modifier = modifier
+//                .padding(paddingValues)
+//                .padding(20.dp)
+//        ) {
+//            val email = viewModel.email.collectAsState("")
+//            val password = viewModel.password.collectAsState("")
+//            OutlinedTextField(
+//                label = {
+//                    Text(
+//                        text = "Email",
+//                        color = MaterialTheme.colorScheme.primary,
+//                        style = MaterialTheme.typography.titleMedium
+//                    )
+//                },
+//                maxLines = 1,
+//                shape = RoundedCornerShape(32),
+//                modifier = modifier.fillMaxWidth(),
+//                value = email.value,
+//                onValueChange = {
+//                    viewModel.onEmailChange(it)
+//                }
+//            )
+//            OutlinedTextField(
+//                label = {
+//                    Text(
+//                        text = "Password",
+//                        color = MaterialTheme.colorScheme.primary,
+//                        style = MaterialTheme.typography.titleMedium
+//                    )
+//                },
+//                maxLines = 1,
+//                shape = RoundedCornerShape(32),
+//                modifier = modifier
+//                    .fillMaxWidth()
+//                    .padding(top = 12.dp),
+//                value = password.value,
+//                onValueChange = {
+//                    viewModel.onPasswordChange(it)
+//                }
+//            )
+//            val localSoftwareKeyboardController =
+//                LocalSoftwareKeyboardController.current
+//            Button(
+//                modifier = modifier
+//                    .fillMaxWidth()
+//                    .padding(top = 12.dp),
+//                onClick = {
+//                    localSoftwareKeyboardController?.hide()
+//                    viewModel.onSignInWithGoogle()
+//                }
+//            ) {
+//                Text("Sign in with Google")
+//            }
+//            Button(
+//                modifier = modifier
+//                    .fillMaxWidth()
+//                    .padding(top = 12.dp),
+//                onClick = {
+//                    localSoftwareKeyboardController?.hide()
+//                    viewModel.onSignIn()
+//                    coroutineScope.launch {
+//                        snackBarHostState.showSnackbar(
+//                            message = "Sign in successfully !",
+//                            duration = SnackbarDuration.Long
+//                        )
+//                    }
+//                }
+//            ) {
+//                Text("Sign in")
+//            }
+//            OutlinedButton(
+//                modifier = modifier
+//                    .fillMaxWidth()
+//                    .padding(top = 12.dp),
+//                onClick = {
+//                    navController.navigate(SignUpDestination.route)
+//                }
+//            ) {
+//                Text("Sign up,not real")
+//            }
+//        }
+//    }
 }
