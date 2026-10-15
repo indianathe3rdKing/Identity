@@ -36,8 +36,10 @@ import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
@@ -57,8 +59,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.indianathe3rd.identity.R
 import com.indianathe3rd.identity.domain.model.Result
+import com.indianathe3rd.identity.presentation.components.auth.EmailField
 import com.indianathe3rd.identity.presentation.components.auth.GoogleSignIn
 import com.indianathe3rd.identity.presentation.components.auth.Gradient
+import com.indianathe3rd.identity.presentation.components.auth.PasswordField
 import com.indianathe3rd.identity.presentation.components.auth.RegisterHeader
 import com.indianathe3rd.identity.presentation.ui.theme.Black
 import com.indianathe3rd.identity.presentation.ui.theme.DarkGray
@@ -66,6 +70,7 @@ import com.indianathe3rd.identity.presentation.ui.theme.TextPrimary
 import com.indianathe3rd.identity.presentation.ui.theme.TextSecondary
 import com.indianathe3rd.identity.presentation.ui.theme.White
 import com.indianathe3rd.identity.presentation.viewmodel.AuthViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeApi::class)
@@ -81,8 +86,9 @@ fun AuthScreen(
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
     val authState by viewModel.authState.collectAsState()
     val localSoftwareKeyboardController = LocalSoftwareKeyboardController.current
-    val email by viewModel.email.collectAsState()
-    val password by viewModel.password.collectAsState()
+
+
+    var error = (authState as? Result.Error)?.message
     LaunchedEffect(authState) {
         when (authState) {
             is Result.Success -> {
@@ -90,9 +96,7 @@ fun AuthScreen(
             }
 
             is Result.Loading -> {
-                snackBarHostState.showSnackbar(
-                    message = ""
-                )
+
             }
 
             is Result.Idle -> Unit
@@ -106,8 +110,7 @@ fun AuthScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(Black)
-            .padding(top = 22.dp)
-            .verticalScroll(rememberScrollState()),
+        ,
         contentAlignment = Alignment.TopCenter
     ) {
         Gradient()
@@ -116,11 +119,13 @@ fun AuthScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 20.dp)
-                .padding(top = 110.dp)
+
+                .imePadding()
                 .navigationBarsPadding()
-                .imePadding(),
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Spacer(modifier = Modifier.height(110.dp))
             RegisterHeader()
             Spacer(modifier = Modifier.height(35.dp))
             GoogleSignIn({
@@ -152,132 +157,41 @@ fun AuthScreen(
                 )
             }
 
-            Column(
-                horizontalAlignment = Alignment.Start
-            ) {
-                Text(
-
-                    text = "Email",
-                    color = White,
-                    fontWeight = FontWeight.Bold
-                )
-
-                Spacer(
-                    modifier = Modifier
-                        .height(4.dp)
-                )
-                TextField(
-                    value = email,
-                    onValueChange = { newValue ->
-                        viewModel.onEmailChange(newValue)
-                    },
-                    placeholder = {
-                        Text(
-                            text = "john.doe@example.com",
-                            color = White.copy(0.7f)
-                        )
-                    },
-                    shape = RoundedCornerShape(10.dp),
-                    colors = TextFieldDefaults.colors(
-                        unfocusedIndicatorColor = Color.Transparent,
-                        focusedIndicatorColor = Color.Transparent,
-                        focusedContainerColor = DarkGray,
-                        unfocusedContainerColor = DarkGray
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .bringIntoViewRequester(bringIntoViewRequester)
-                        .onFocusEvent { focusState ->
-                            if (focusState.isFocused) {
-                                coroutineScope.launch {
-                                    bringIntoViewRequester.bringIntoView()
-                                }
-                            }
-                        },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Email,
-                        imeAction = ImeAction.Done
-                    ),
-                    keyboardActions = KeyboardActions(
-                        onDone = {
-                            localSoftwareKeyboardController?.hide()
-
-                        }
-                    )
-                )
-            }
+            EmailField(viewModel)
             Spacer(modifier = Modifier.height(20.dp))
 
-            Column(
-                horizontalAlignment = Alignment.Start
+            PasswordField(
+                viewModel = viewModel,
+                onFocused = {
+                    coroutineScope.launch {
+                        delay(300)
+                        bringIntoViewRequester.bringIntoView()
+                    }
+                }
+            )
+
+            Spacer(modifier = Modifier.height(35.dp))
+            Button(
+                onClick = {
+                    viewModel.onSignUp()
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = White
+                ),
+                shape = RoundedCornerShape(10.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .bringIntoViewRequester(bringIntoViewRequester)
             ) {
                 Text(
-
-                    text = "Password",
-                    color = White,
-                    fontWeight = FontWeight.Bold
+                    text = "Sign up",
+                    modifier = Modifier.padding(vertical = 4.dp), color = TextPrimary
                 )
-
-                Spacer(
-                    modifier = Modifier
-                        .height(4.dp)
-                )
-                TextField(
-                    value = password,
-                    onValueChange = { newValue ->
-                        viewModel.onPasswordChange(newValue)
-                    },
-                    placeholder = {
-                        Text(
-                            text = "Enter your password",
-                            color = White.copy(0.7f)
-                        )
-                    },
-                    shape = RoundedCornerShape(10.dp),
-                    colors = TextFieldDefaults.colors(
-                        unfocusedIndicatorColor = Color.Transparent,
-                        focusedIndicatorColor = Color.Transparent,
-                        focusedContainerColor = DarkGray,
-                        unfocusedContainerColor = DarkGray
-                    ),
-                    visualTransformation = PasswordVisualTransformation(),
-                    modifier = Modifier.fillMaxWidth(),
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Password,
-                        imeAction = ImeAction.Done
-                    ),
-                    keyboardActions = KeyboardActions(
-                        onDone = {
-                            localSoftwareKeyboardController?.hide()
-
-                        }
-                    )
-                )
-                Spacer(modifier = Modifier.height(35.dp))
-                Button(
-                    onClick = {
-                        viewModel.onSignUp()
-                    },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = White
-                    ),
-                    shape = RoundedCornerShape(10.dp),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(
-                        text = "Sign up",
-                        modifier = Modifier.padding(vertical = 4.dp), color = TextPrimary
-                    )
-                }
-
-
             }
-
             Spacer(modifier = Modifier.height(25.dp))
             TextButton(
-                onClick = {},
-
-                ) {
+                onClick = {}
+            ) {
                 Text(
                     text = buildAnnotatedString {
                         withStyle(
@@ -297,7 +211,9 @@ fun AuthScreen(
                             append("Log in")
                         }
 
-                    }
+                    },
+                    modifier = Modifier
+                        .bringIntoViewRequester(bringIntoViewRequester)
                 )
             }
         }
