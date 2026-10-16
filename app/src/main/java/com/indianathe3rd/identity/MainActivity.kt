@@ -55,7 +55,6 @@ class MainActivity : ComponentActivity() {
 
                     composable(AuthenticationDestination.route) {
                         AuthScreen(
-                            navController = navController,
                             onLoginScreen = {
                                 navController.navigate(RootDestination.route) {
                                     popUpTo(AuthenticationDestination.route) {

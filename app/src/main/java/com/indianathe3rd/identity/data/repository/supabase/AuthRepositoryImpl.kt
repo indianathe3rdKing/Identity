@@ -1,5 +1,6 @@
 package com.indianathe3rd.identity.data.repository.supabase
 
+import android.util.Log
 import com.indianathe3rd.identity.domain.model.Result
 import com.indianathe3rd.identity.domain.model.SignInRequest
 import com.indianathe3rd.identity.domain.repository.supabase.AuthRepository
@@ -22,9 +23,31 @@ class AuthRepositoryImpl @Inject constructor(
                 email = signUp.email
                 password = signUp.password
             }
-            Result.Success
+            val session = auth.currentSessionOrNull()
+            val user = auth.currentUserOrNull()
+
+            if (user != null && user.identities.isNullOrEmpty()) {
+                Result.Error("This email is already registered. Please sign in.")
+            } else if (session == null) {
+                Result.Error("This email is already registered. Please sign in.")
+            } else {
+                Result.Success
+            }
         } catch (e: Exception) {
-            Result.Error(e.localizedMessage ?: "Unknown Error")
+            Log.e(TAG, "SignUp Error : ${e.message}", e)
+
+            val message = when {
+                e.message?.contains("already", ignoreCase = true) == true ||
+                        e.message?.contains("registered", ignoreCase = true) == true ||
+                        e.message?.contains("exists", ignoreCase = true) == true ->
+                    "This email is already registered. Please sign in."
+
+                e.message?.contains("password", ignoreCase = true) == true ->
+                    "Password is too weak."
+
+                else -> e.message ?: "Sign up failed"
+            }
+            Result.Error(message)
         }
     }
 
@@ -36,7 +59,18 @@ class AuthRepositoryImpl @Inject constructor(
             }
             Result.Success
         } catch (e: Exception) {
-            Result.Error(e.localizedMessage)
+            Log.e(TAG, "SignIn Error : ${e.localizedMessage}", e)
+            val message = when {
+                e.message?.contains("Invalid login credentials", ignoreCase = true) == true ||
+                        e.message?.contains("invalid", ignoreCase = true) == true ->
+                    "Incorrect email or password"
+
+                e.message?.contains("Email not confirmed", ignoreCase = true) == true ->
+                    "Please confirm your email first"
+
+                else -> e.message ?: e.localizedMessage ?: "Something is wrong"
+            }
+            Result.Error(message)
         }
     }
 
@@ -53,7 +87,13 @@ class AuthRepositoryImpl @Inject constructor(
             auth.signInWith(Google)
             Result.Idle
         } catch (e: Exception) {
+            Log.e(TAG, "Error : $e")
+
             Result.Error(e.localizedMessage ?: "Unknown Error")
         }
+    }
+
+    companion object {
+        private val TAG = "AuthImpl"
     }
 }

@@ -1,5 +1,6 @@
 package com.indianathe3rd.identity.presentation.viewmodel
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,6 +12,7 @@ import com.indianathe3rd.identity.domain.usecase.supabase.auth.SignInUsecase
 import com.indianathe3rd.identity.domain.usecase.supabase.auth.SignInWithGoogle
 import com.indianathe3rd.identity.domain.usecase.supabase.auth.SignUpUsecase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.auth.status.SessionStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -99,6 +101,7 @@ class AuthViewModel @Inject constructor(
                 _authCredentials.value
             )
             _authState.value = result
+            Log.e(TAG,"Auth result: $result")
         }
     }
 
@@ -112,5 +115,9 @@ class AuthViewModel @Inject constructor(
                 _authState.value = Result.Idle
             }
         }
+    }
+
+    companion object{
+        private val TAG = "AuthViewModel"
     }
 }
