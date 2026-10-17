@@ -116,7 +116,7 @@ dependencies {
 
     implementation(libs.openai)
 
-
+    implementation(libs.lottie)
 }
 
 

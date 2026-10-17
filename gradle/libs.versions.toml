@@ -27,6 +27,7 @@ ksp = "2.3.12"
 
 coil = "3.6.3"
 
+lottie = "6.7.1"
 secrets-gradle-plugin = "2.0.1"
 
 openai = "4.0.0"
@@ -81,6 +82,9 @@ material-icons-extended = { module = "androidx.compose.material:material-icons-e
 
 #Google
 secrets-gradle-plugin-android = { module = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin", version = "secrets-gradle-plugin" }
+
+#Lottie
+lottie = {module = "com.airbnb.android:lottie-compose", version.ref="lottie"}
 
 #Coil
 coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
