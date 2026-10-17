@@ -1,7 +1,6 @@
 package com.indianathe3rd.identity.presentation.screen.auth
 
 import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,26 +12,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.LaunchedEffect
@@ -41,7 +28,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -53,13 +39,13 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.indianathe3rd.identity.domain.model.Result
+import com.indianathe3rd.identity.presentation.components.auth.AuthButton
 import com.indianathe3rd.identity.presentation.components.auth.EmailField
 import com.indianathe3rd.identity.presentation.components.auth.GoogleSignIn
 import com.indianathe3rd.identity.presentation.components.auth.Gradient
 import com.indianathe3rd.identity.presentation.components.auth.PasswordField
 import com.indianathe3rd.identity.presentation.components.auth.RegisterHeader
 import com.indianathe3rd.identity.presentation.ui.theme.Black
-import com.indianathe3rd.identity.presentation.ui.theme.TextPrimary
 import com.indianathe3rd.identity.presentation.ui.theme.White
 import com.indianathe3rd.identity.presentation.viewmodel.AuthViewModel
 import kotlinx.coroutines.delay
@@ -78,7 +64,7 @@ fun AuthScreen(
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
     val authState by viewModel.authState.collectAsState()
     val localSoftwareKeyboardController = LocalSoftwareKeyboardController.current
-    var isSIgnIn = remember { mutableStateOf(false) }
+    var isSignIn = remember { mutableStateOf(false) }
     val errorMesssage = (authState as? Result.Error)?.message
 
 
@@ -117,7 +103,7 @@ fun AuthScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.height(110.dp))
-            RegisterHeader(isSIgnIn)
+            RegisterHeader(isSignIn)
             Spacer(modifier = Modifier.height(35.dp))
             GoogleSignIn({
                 localSoftwareKeyboardController?.hide()
@@ -179,29 +165,12 @@ fun AuthScreen(
                     35.dp
                 )
             )
-            Button(
-                onClick = {
-                    if (isSIgnIn.value) viewModel.onSignIn() else
-                        viewModel.onSignUp()
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = White
-                ),
-                shape = RoundedCornerShape(10.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .bringIntoViewRequester(bringIntoViewRequester)
-            ) {
-                Text(
-                    text = if (isSIgnIn.value) "Sign in" else "Sign up",
-                    modifier = Modifier.padding(vertical = 4.dp), color = TextPrimary
-                )
-            }
+            AuthButton(isSignIn,viewModel)
             Spacer(modifier = Modifier.height(25.dp))
             TextButton(
                 onClick = {
-                    isSIgnIn.value = !isSIgnIn.value
-                    Log.e(TAG, "SignIn : $isSIgnIn")
+                    isSignIn.value = !isSignIn.value
+                    Log.e(TAG, "SignIn : $isSignIn")
                 }
             ) {
                 Text(
