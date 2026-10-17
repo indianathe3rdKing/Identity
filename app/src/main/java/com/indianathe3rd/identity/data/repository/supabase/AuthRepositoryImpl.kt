@@ -41,7 +41,8 @@ class AuthRepositoryImpl @Inject constructor(
                         e.message?.contains("registered", ignoreCase = true) == true ||
                         e.message?.contains("exists", ignoreCase = true) == true ->
                     "This email is already registered. Please sign in."
-
+                e.message?.contains("Anonymous sign-ins are disabled", ignoreCase = true)== true->
+                    "Please Enter User Credentials"
                 e.message?.contains("password", ignoreCase = true) == true ->
                     "Password is too weak."
 
