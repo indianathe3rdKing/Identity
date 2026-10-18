@@ -42,7 +42,7 @@ class AuthRepositoryImpl @Inject constructor(
                         e.message?.contains("exists", ignoreCase = true) == true ->
                     "This email is already registered. Please sign in."
                 e.message?.contains("Anonymous sign-ins are disabled", ignoreCase = true)== true->
-                    "Please Enter User Credentials"
+                    "Please enter your Email and Password"
                 e.message?.contains("password", ignoreCase = true) == true ->
                     "Password is too weak."
 
@@ -68,7 +68,8 @@ class AuthRepositoryImpl @Inject constructor(
 
                 e.message?.contains("Email not confirmed", ignoreCase = true) == true ->
                     "Please confirm your email first"
-
+                e.message?.contains("missing email or phone", ignoreCase = true)== true ->
+                    "Please enter your Email and Password"
                 else -> e.message ?: e.localizedMessage ?: "Something is wrong"
             }
             Result.Error(message)
