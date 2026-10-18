@@ -102,9 +102,21 @@ class AuthRepositoryImpl @Inject constructor(
             )
            Result.Success
         }catch (e: Exception){
-            Result.Error("Error: $e")
+            Result.Error(e.localizedMessage ?: "Failed to send Reset email")
         }
     }
+
+    override suspend fun updatePassword(newPassword: String): Result {
+        return try {
+            auth.updateUser {
+                password = newPassword
+            }
+            Result.Success
+        }catch (e: Exception){
+            Result.Error(e.localizedMessage ?: "Failed to update password")
+        }
+    }
+
 
     companion object {
         private val TAG = "AuthImpl"

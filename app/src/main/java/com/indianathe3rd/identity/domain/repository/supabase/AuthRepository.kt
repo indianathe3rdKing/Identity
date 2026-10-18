@@ -13,4 +13,5 @@ interface AuthRepository {
     suspend fun logiWithGoogle(): Result
 
     suspend fun sendPasswordReset(email: String): Result
+    suspend fun updatePassword(newPassword: String): Result
 }
