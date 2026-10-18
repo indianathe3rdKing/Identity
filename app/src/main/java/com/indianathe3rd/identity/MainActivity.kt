@@ -17,9 +17,13 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.indianathe3rd.identity.presentation.navigation.AppNavigation
 import com.indianathe3rd.identity.presentation.navigation.AuthenticationDestination
+import com.indianathe3rd.identity.presentation.navigation.ForgotPassword
 import com.indianathe3rd.identity.presentation.navigation.RootDestination
+import com.indianathe3rd.identity.presentation.navigation.SendMail
 import com.indianathe3rd.identity.presentation.navigation.SignUpDestination
 import com.indianathe3rd.identity.presentation.screen.auth.AuthScreen
+import com.indianathe3rd.identity.presentation.screen.auth.EmailScreen
+import com.indianathe3rd.identity.presentation.screen.auth.ForgotPasswordScreen
 import com.indianathe3rd.identity.presentation.screen.auth.SignUpScreen
 import com.indianathe3rd.identity.presentation.ui.theme.IdentityTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,7 +50,7 @@ class MainActivity : ComponentActivity() {
                 val currentDestination = currentBackStack?.destination
                 NavHost(
                     navController = navController,
-                    startDestination = AuthenticationDestination.route,
+                    startDestination = SendMail.route,
                     modifier = Modifier.fillMaxSize()
                 ) {
                     composable(RootDestination.route) {
@@ -63,6 +67,14 @@ class MainActivity : ComponentActivity() {
                                 }
                             }
                         )
+                    }
+
+                    composable(ForgotPassword.route){
+                        ForgotPasswordScreen()
+                    }
+
+                    composable(SendMail.route){
+                        EmailScreen()
                     }
 
                     composable(SignUpDestination.route) {

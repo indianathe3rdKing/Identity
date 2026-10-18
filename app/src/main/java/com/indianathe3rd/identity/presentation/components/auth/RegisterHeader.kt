@@ -23,7 +23,7 @@ fun RegisterHeader(isSignIn: MutableState<Boolean>){
     )
     Spacer(modifier = Modifier.height(12.dp))
     Text(
-        text = if (isSignIn.value)"Enter your Sign In details" else "Enter your personal data to create an account",
+        text = if (isSignIn.value) "Enter your Sign In details" else "Enter your personal data to create an account",
         style = MaterialTheme.typography.bodyMedium,
         color = White.copy(0.8f)
     )

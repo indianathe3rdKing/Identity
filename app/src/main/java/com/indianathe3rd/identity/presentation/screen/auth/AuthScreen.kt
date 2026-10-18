@@ -65,7 +65,7 @@ fun AuthScreen(
     val authState by viewModel.authState.collectAsState()
     val localSoftwareKeyboardController = LocalSoftwareKeyboardController.current
     var isSignIn = remember { mutableStateOf(false) }
-    val errorMesssage = (authState as? Result.Error)?.message
+    val errorMessage = (authState as? Result.Error)?.message
 
 
     LaunchedEffect(authState) {
@@ -146,9 +146,9 @@ fun AuthScreen(
                     }
                 }
             )
-            if (errorMesssage != null) {
+            if (errorMessage != null) {
                 Text(
-                    text = errorMesssage,
+                    text = errorMessage,
                     color = MaterialTheme.colorScheme.error,
                     modifier = Modifier
                         .padding(top = 20.dp)
@@ -160,7 +160,7 @@ fun AuthScreen(
             }
 
             Spacer(
-                modifier = if (errorMesssage != null) Modifier.height(25.dp)
+                modifier = if (errorMessage != null) Modifier.height(25.dp)
                 else Modifier.height(
                     35.dp
                 )
