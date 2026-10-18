@@ -95,6 +95,17 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun sendPasswordReset(email: String): Result {
+       return try {
+            auth.resetPasswordForEmail(
+                email = email
+            )
+           Result.Success
+        }catch (e: Exception){
+            Result.Error("Error: $e")
+        }
+    }
+
     companion object {
         private val TAG = "AuthImpl"
     }

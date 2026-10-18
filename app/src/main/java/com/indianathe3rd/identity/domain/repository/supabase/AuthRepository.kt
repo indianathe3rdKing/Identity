@@ -11,4 +11,6 @@ interface AuthRepository {
     suspend fun signIn(signIn: SignInRequest): Result
     suspend fun createNonce(): String
     suspend fun logiWithGoogle(): Result
+
+    suspend fun sendPasswordReset(email: String): Result
 }
