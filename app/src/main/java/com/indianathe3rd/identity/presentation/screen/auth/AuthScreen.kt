@@ -38,6 +38,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.indianathe3rd.identity.domain.model.Result
 import com.indianathe3rd.identity.presentation.components.auth.AuthButton
 import com.indianathe3rd.identity.presentation.components.auth.EmailField
@@ -45,7 +46,9 @@ import com.indianathe3rd.identity.presentation.components.auth.GoogleSignIn
 import com.indianathe3rd.identity.presentation.components.auth.Gradient
 import com.indianathe3rd.identity.presentation.components.auth.PasswordField
 import com.indianathe3rd.identity.presentation.components.auth.RegisterHeader
+import com.indianathe3rd.identity.presentation.navigation.SendMail
 import com.indianathe3rd.identity.presentation.ui.theme.Black
+import com.indianathe3rd.identity.presentation.ui.theme.DarkPurple
 import com.indianathe3rd.identity.presentation.ui.theme.White
 import com.indianathe3rd.identity.presentation.viewmodel.AuthViewModel
 import kotlinx.coroutines.delay
@@ -56,7 +59,7 @@ private val TAG = "AuthScreen"
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeApi::class)
 @Composable
 fun AuthScreen(
-
+    navController: NavController,
     viewModel: AuthViewModel = hiltViewModel(),
     onLoginScreen: () -> Unit
 ) {
@@ -66,7 +69,6 @@ fun AuthScreen(
     val localSoftwareKeyboardController = LocalSoftwareKeyboardController.current
     var isSignIn = remember { mutableStateOf(false) }
     val errorMessage = (authState as? Result.Error)?.message
-
 
     LaunchedEffect(authState) {
         when (authState) {
@@ -166,7 +168,18 @@ fun AuthScreen(
                 )
             )
             AuthButton(isSignIn,viewModel)
-            Spacer(modifier = Modifier.height(25.dp))
+            Spacer(modifier = Modifier.height(5.dp))
+            TextButton(
+                onClick = {
+                    navController.navigate(SendMail.route)
+                }
+            ) {
+                Text(text = "Forgot Password?",
+                    fontWeight = FontWeight.Light,
+                    color = DarkPurple
+                )
+            }
+
             TextButton(
                 onClick = {
                     isSignIn.value = !isSignIn.value

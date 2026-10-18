@@ -25,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.indianathe3rd.identity.presentation.components.auth.EmailField
 import com.indianathe3rd.identity.presentation.components.auth.Gradient
 import com.indianathe3rd.identity.presentation.components.auth.PasswordField
@@ -37,7 +38,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun EmailScreen(viewModel: AuthViewModel = hiltViewModel()) {
+fun EmailScreen(viewModel: AuthViewModel = hiltViewModel(),navController: NavController) {
     val coroutineScope = rememberCoroutineScope()
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
     Box(

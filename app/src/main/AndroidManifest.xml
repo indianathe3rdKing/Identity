@@ -13,21 +13,21 @@
 
     <application
         android:name=".IdentityApplication"
-        android:windowSoftInputMode = "adjustResize"
-        android:exported="true"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
+        android:exported="true"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Identity">
+        android:theme="@style/Theme.Identity"
+        android:windowSoftInputMode="adjustResize">
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:launchMode="singleTask"
             android:label="@string/app_name"
+            android:launchMode="singleTask"
             android:theme="@style/Theme.Identity"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
@@ -37,12 +37,13 @@
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:host="login-callback"
-                    android:scheme="identity" />
+                <data android:scheme="identity" />
+                <data android:host="login-callback" />
+                <data android:host="reset-password" />
             </intent-filter>
         </activity>
     </application>

@@ -36,21 +36,24 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var supabaseClient: SupabaseClient
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
         supabaseClient.handleDeeplinks(intent)
+        val deepLinkHost = intent?.data?.host
 
         setContent {
             IdentityTheme {
                 val navController = rememberNavController()
-                val currentBackStack by navController.currentBackStackEntryAsState()
-                val currentDestination = currentBackStack?.destination
+
+                val startDestination = when (deepLinkHost) {
+                    "reset-password" -> ForgotPassword.route
+                    else -> AuthenticationDestination.route
+                }
                 NavHost(
                     navController = navController,
-                    startDestination = SendMail.route,
+                    startDestination = startDestination,
                     modifier = Modifier.fillMaxSize()
                 ) {
                     composable(RootDestination.route) {
@@ -59,6 +62,7 @@ class MainActivity : ComponentActivity() {
 
                     composable(AuthenticationDestination.route) {
                         AuthScreen(
+                            navController = navController,
                             onLoginScreen = {
                                 navController.navigate(RootDestination.route) {
                                     popUpTo(AuthenticationDestination.route) {
@@ -69,12 +73,12 @@ class MainActivity : ComponentActivity() {
                         )
                     }
 
-                    composable(ForgotPassword.route){
+                    composable(ForgotPassword.route) {
                         ForgotPasswordScreen()
                     }
 
-                    composable(SendMail.route){
-                        EmailScreen()
+                    composable(SendMail.route) {
+                        EmailScreen(navController = navController)
                     }
 
                     composable(SignUpDestination.route) {
@@ -86,8 +90,7 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)){
-            view,insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
             val bottom = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
             insets
         }
