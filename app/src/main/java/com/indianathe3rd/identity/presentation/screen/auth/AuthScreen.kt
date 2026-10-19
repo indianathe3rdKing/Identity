@@ -180,36 +180,7 @@ fun AuthScreen(
                 )
             }
 
-            TextButton(
-                onClick = {
-                    isSignIn.value = !isSignIn.value
-                    Log.e(TAG, "SignIn : $isSignIn")
-                }
-            ) {
-                Text(
-                    text = buildAnnotatedString {
-                        withStyle(
-                            style = SpanStyle(
-                                fontWeight = FontWeight.Light,
-                                color = White.copy(0.8f)
-                            )
-                        ) {
-                            append("Already have an account? ")
-                        }
-                        withStyle(
-                            style = SpanStyle(
-                                fontWeight = FontWeight.Bold,
-                                color = White
-                            )
-                        ) {
-                            append("Log in")
-                        }
 
-                    },
-                    modifier = Modifier
-                        .bringIntoViewRequester(bringIntoViewRequester)
-                )
-            }
         }
     }
 
