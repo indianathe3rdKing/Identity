@@ -1,6 +1,10 @@
 package com.indianathe3rd.identity.presentation.screen.auth
 
 import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.scaleIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,6 +32,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -70,6 +75,11 @@ fun AuthScreen(
     val localSoftwareKeyboardController = LocalSoftwareKeyboardController.current
     var isSignIn = remember { mutableStateOf(false) }
     val errorMessage = (authState as? Result.Error)?.message
+    var visible by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        visible = true
+    }
 
     LaunchedEffect(authState) {
         when (authState) {
@@ -95,93 +105,100 @@ fun AuthScreen(
     ) {
         Gradient()
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 20.dp)
-
-                .imePadding()
-                .navigationBarsPadding()
-                .verticalScroll(rememberScrollState()),
-            horizontalAlignment = Alignment.CenterHorizontally
+        AnimatedVisibility(
+            visible,
+            enter = fadeIn(
+                animationSpec = tween(1000)
+            ) + scaleIn(initialScale = 0.5f, animationSpec = tween())
         ) {
-            Spacer(modifier = Modifier.height(110.dp))
-            RegisterHeader(isSignIn)
-            Spacer(modifier = Modifier.height(35.dp))
-            GoogleSignIn({
-                localSoftwareKeyboardController?.hide()
-                viewModel.onSignInWithGoogle()
-            })
-
-            Row(
+            Column(
                 modifier = Modifier
-                    .padding(vertical = 20.dp),
-                verticalAlignment = Alignment.CenterVertically
+                    .fillMaxSize()
+                    .padding(horizontal = 20.dp)
+
+                    .imePadding()
+                    .navigationBarsPadding()
+                    .verticalScroll(rememberScrollState()),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .height(1.dp)
-                        .background(White.copy(0.2f))
-                )
-                Text(
-                    text = "Or",
-                    color = White.copy(0.7f),
-                    modifier = Modifier.padding(horizontal = 10.dp)
-                )
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .height(1.dp)
-                        .background(White.copy(0.2f))
-                )
-            }
+                Spacer(modifier = Modifier.height(110.dp))
+                RegisterHeader(isSignIn)
+                Spacer(modifier = Modifier.height(35.dp))
+                GoogleSignIn({
+                    localSoftwareKeyboardController?.hide()
+                    viewModel.onSignInWithGoogle()
+                })
 
-            EmailField(viewModel)
-            Spacer(modifier = Modifier.height(20.dp))
+                Row(
+                    modifier = Modifier
+                        .padding(vertical = 20.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(1.dp)
+                            .background(White.copy(0.2f))
+                    )
+                    Text(
+                        text = "Or",
+                        color = White.copy(0.7f),
+                        modifier = Modifier.padding(horizontal = 10.dp)
+                    )
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(1.dp)
+                            .background(White.copy(0.2f))
+                    )
+                }
 
-            PasswordField(
-                viewModel = viewModel,
-                onFocused = {
-                    coroutineScope.launch {
-                        delay(300)
-                        bringIntoViewRequester.bringIntoView()
+                EmailField(viewModel)
+                Spacer(modifier = Modifier.height(20.dp))
+
+                PasswordField(
+                    viewModel = viewModel,
+                    onFocused = {
+                        coroutineScope.launch {
+                            delay(300)
+                            bringIntoViewRequester.bringIntoView()
+                        }
                     }
+                )
+                if (errorMessage != null) {
+                    Text(
+                        text = errorMessage,
+                        color = MaterialTheme.colorScheme.error,
+                        modifier = Modifier
+                            .padding(top = 20.dp)
+                            .fillMaxWidth(0.9f),
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
                 }
-            )
-            if (errorMessage != null) {
-                Text(
-                    text = errorMessage,
-                    color = MaterialTheme.colorScheme.error,
-                    modifier = Modifier
-                        .padding(top = 20.dp)
-                        .fillMaxWidth(0.9f)
-                        ,
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.bodyMedium
-                )
-            }
 
-            Spacer(
-                modifier = if (errorMessage != null) Modifier.height(25.dp)
-                else Modifier.height(
-                    35.dp
+                Spacer(
+                    modifier = if (errorMessage != null) Modifier.height(25.dp)
+                    else Modifier.height(
+                        35.dp
+                    )
                 )
-            )
-            AuthButton(isSignIn,viewModel)
-            Spacer(modifier = Modifier.height(5.dp))
-            TextButton(
-                onClick = {
-                    navController.navigate(SendMail.route)
+                AuthButton(isSignIn, viewModel)
+                Spacer(modifier = Modifier.height(5.dp))
+                TextButton(
+                    onClick = {
+                        navController.navigate(SendMail.route)
+                    }
+                ) {
+                    Text(
+                        text = "Forgot Password?",
+                        fontWeight = FontWeight.Light,
+                        color = DarkPurple
+                    )
                 }
-            ) {
-                Text(text = "Forgot Password?",
-                    fontWeight = FontWeight.Light,
-                    color = DarkPurple
-                )
-            }
-            ForgotButton(isSignIn)
+                ForgotButton(isSignIn)
 
+            }
         }
     }
 
