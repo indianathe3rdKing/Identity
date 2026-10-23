@@ -17,7 +17,7 @@ import com.indianathe3rd.identity.domain.model.Result
 import com.indianathe3rd.identity.presentation.ui.theme.White
 
 @Composable
-fun ForgotButton(isSignIn: MutableState<Result>){
+fun ForgotButton(isSignIn: MutableState<Boolean>){
 
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
     TextButton(

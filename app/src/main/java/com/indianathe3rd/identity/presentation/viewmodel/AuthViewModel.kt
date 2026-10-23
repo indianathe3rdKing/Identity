@@ -8,6 +8,7 @@ import com.indianathe3rd.identity.domain.model.Result
 import com.indianathe3rd.identity.domain.model.SignInRequest
 import com.indianathe3rd.identity.domain.model.SignUpRequest
 import com.indianathe3rd.identity.domain.repository.supabase.AuthRepository
+import com.indianathe3rd.identity.domain.usecase.supabase.auth.SendPasswordReset
 import com.indianathe3rd.identity.domain.usecase.supabase.auth.SignInUsecase
 import com.indianathe3rd.identity.domain.usecase.supabase.auth.SignInWithGoogle
 import com.indianathe3rd.identity.domain.usecase.supabase.auth.SignUpUsecase
@@ -25,7 +26,8 @@ class AuthViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val signInCase: SignInUsecase,
     private val signUpCase: SignUpUsecase,
-    private val signInWithGoogle: SignInWithGoogle
+    private val signInWithGoogle: SignInWithGoogle,
+    private val sendPasswordReset: SendPasswordReset
 ) : ViewModel() {
 
     private val _email = MutableStateFlow("")
@@ -114,6 +116,22 @@ class AuthViewModel @Inject constructor(
             } else {
                 _authState.value = Result.Idle
             }
+        }
+    }
+
+    fun onSendPasswordReset() {
+        viewModelScope.launch {
+            _authState.value = Result.Loading
+            val result = sendPasswordReset(email = email.value)
+            _authState.value = result
+        }
+    }
+
+    fun onUpdatePassword() {
+        viewModelScope.launch {
+            _authState.value = Result.Loading
+            val result = authRepository.updatePassword(_password.value)
+            _authState.value = result
         }
     }
 

@@ -98,7 +98,7 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun sendPasswordReset(email: String): Result {
        return try {
             auth.resetPasswordForEmail(
-                email = email,
+                email = email.trim(),
                 redirectUrl = "identity://reset-password"
             )
            Result.Success

@@ -19,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection.Companion.Down
 import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
@@ -89,7 +90,7 @@ fun EmailField(viewModel: AuthViewModel){
             ),
             keyboardActions = KeyboardActions(
                 onNext = {
-                    focusManager.moveFocus(androidx.compose.ui.focus.FocusDirection.Down)
+                    focusManager.moveFocus(Down)
                 }
             )
         )

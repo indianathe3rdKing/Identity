@@ -42,6 +42,7 @@ import androidx.navigation.NavController
 import com.indianathe3rd.identity.domain.model.Result
 import com.indianathe3rd.identity.presentation.components.auth.AuthButton
 import com.indianathe3rd.identity.presentation.components.auth.EmailField
+import com.indianathe3rd.identity.presentation.components.auth.ForgotButton
 import com.indianathe3rd.identity.presentation.components.auth.GoogleSignIn
 import com.indianathe3rd.identity.presentation.components.auth.Gradient
 import com.indianathe3rd.identity.presentation.components.auth.PasswordField
@@ -179,7 +180,7 @@ fun AuthScreen(
                     color = DarkPurple
                 )
             }
-
+            ForgotButton(isSignIn)
 
         }
     }

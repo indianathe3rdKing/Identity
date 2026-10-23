@@ -17,15 +17,20 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.indianathe3rd.identity.domain.model.Result
 import com.indianathe3rd.identity.presentation.components.auth.EmailField
 import com.indianathe3rd.identity.presentation.components.auth.Gradient
 import com.indianathe3rd.identity.presentation.components.auth.PasswordField
@@ -38,9 +43,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun EmailScreen(viewModel: AuthViewModel = hiltViewModel(),navController: NavController) {
+fun EmailScreen(viewModel: AuthViewModel = hiltViewModel(), navController: NavController) {
     val coroutineScope = rememberCoroutineScope()
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
+    val authState by viewModel.authState.collectAsState()
+    val errorMessage = (authState as? Result.Error)?.message
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -53,20 +61,35 @@ fun EmailScreen(viewModel: AuthViewModel = hiltViewModel(),navController: NavCon
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 20.dp)
-
                 .imePadding()
-                .navigationBarsPadding()
-                ,
+                .navigationBarsPadding(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.height(110.dp))
             ResetPassword("Enter your Email", "Enter your Account Email")
             Spacer(Modifier.height(25.dp))
             EmailField(viewModel)
+
+            if (errorMessage != null) {
+                Text(
+                    text = errorMessage,
+                    color = MaterialTheme.colorScheme.error,
+                    modifier = Modifier.padding(top = 16.dp),
+                    textAlign = TextAlign.Center
+                )
+            } else if (authState is Result.Success) {
+                Text(
+                    text = "Password reset email sent! Please check your inbox.",
+                    color = White,
+                    modifier = Modifier.padding(top = 16.dp),
+                    textAlign = TextAlign.Center
+                )
+            }
+
             Spacer(Modifier.height(35.dp))
             Button(
                 onClick = {
-
+                    viewModel.onSendPasswordReset()
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = White
@@ -77,11 +100,11 @@ fun EmailScreen(viewModel: AuthViewModel = hiltViewModel(),navController: NavCon
                     .height(48.dp)
                     .bringIntoViewRequester(bringIntoViewRequester)
             ) {
-
-                    Text(
-                        text = "Send",
-                        modifier = Modifier.padding(vertical = 4.dp), color = TextPrimary
-                    )
+                Text(
+                    text = "Send",
+                    modifier = Modifier.padding(vertical = 4.dp),
+                    color = TextPrimary
+                )
             }
         }
     }

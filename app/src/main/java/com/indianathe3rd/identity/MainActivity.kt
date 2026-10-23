@@ -28,6 +28,7 @@ import com.indianathe3rd.identity.presentation.screen.auth.SignUpScreen
 import com.indianathe3rd.identity.presentation.ui.theme.IdentityTheme
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.jan.supabase.SupabaseClient
+import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.handleDeeplinks
 import javax.inject.Inject
 
@@ -42,13 +43,13 @@ class MainActivity : ComponentActivity() {
 
         supabaseClient.handleDeeplinks(intent)
         val deepLinkHost = intent?.data?.host
-
+        val session = supabaseClient.auth.currentSessionOrNull()
         setContent {
             IdentityTheme {
                 val navController = rememberNavController()
 
-                val startDestination = when (deepLinkHost) {
-                    "reset-password" -> ForgotPassword.route
+                val startDestination = when {
+                   deepLinkHost == "reset-password"&& session != null -> ForgotPassword.route
                     else -> AuthenticationDestination.route
                 }
                 NavHost(
