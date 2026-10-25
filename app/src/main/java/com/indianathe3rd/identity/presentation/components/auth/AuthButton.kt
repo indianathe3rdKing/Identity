@@ -16,7 +16,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -42,7 +41,6 @@ fun AuthButton(isSignIn: MutableState<Boolean>, viewModel: AuthViewModel) {
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
     val result by viewModel.authState.collectAsState()
     var animating by remember { mutableStateOf(false) }
-    var displayText by remember { mutableStateOf(false) }
     val scaleUp by animateFloatAsState(
         targetValue = if (animating) 1.2f else 1f,
         animationSpec = spring(
@@ -60,9 +58,10 @@ fun AuthButton(isSignIn: MutableState<Boolean>, viewModel: AuthViewModel) {
             animating = false
         },
     )
-    LaunchedEffect(flip) {
-        displayText = flip <= 0f
-    }
+    val showSignIn = flip < 0f
+    val buttonText = if (showSignIn) "Sign in" else "Sign up"
+
+
 
     Button(
         onClick = {
@@ -78,8 +77,7 @@ fun AuthButton(isSignIn: MutableState<Boolean>, viewModel: AuthViewModel) {
             .fillMaxWidth()
             .height(48.dp)
             .bringIntoViewRequester(bringIntoViewRequester)
-            .graphicsLayer(
-                scaleX = flip,
+            .graphicsLayer(scaleX = flip,
                 scaleUp
             )
 
@@ -87,24 +85,14 @@ fun AuthButton(isSignIn: MutableState<Boolean>, viewModel: AuthViewModel) {
         if (result is Result.Loading) {
             Loading(result)
         } else {
-            if (isSignIn.value && flip <= 0f) {
-                Text(
-                    text = "Sign in",
-                    modifier = Modifier
-                        .padding(vertical = 4.dp)
-                        .graphicsLayer(
-                            scaleX = if (flip < 0f) -1f else 1f
-                        ), color = TextPrimary
-                )
-            }
-            if (!isSignIn.value && flip > 0f) {
-                Text(
-                    text = "Sign up",
-                    modifier = Modifier
-                        .padding(vertical = 4.dp)
-                        , color = TextPrimary
-                )
-            }
+            Text(
+                text = buttonText,
+                modifier = Modifier.padding(vertical = 4.dp)
+                    .graphicsLayer {
+                        // keep text readable after flip
+                        scaleX = if (flip < 0f) -1f else 1f
+                    }, color = TextPrimary
+            )
         }
     }
 
