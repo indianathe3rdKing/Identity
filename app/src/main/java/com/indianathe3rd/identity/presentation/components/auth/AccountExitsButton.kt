@@ -1,6 +1,5 @@
 package com.indianathe3rd.identity.presentation.components.auth
 
-import android.util.Log
 import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.material3.Text
@@ -13,11 +12,10 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
-import com.indianathe3rd.identity.domain.model.Result
 import com.indianathe3rd.identity.presentation.ui.theme.White
 
 @Composable
-fun ForgotButton(isSignIn: MutableState<Boolean>){
+fun AccountExitsButton(isSignIn: MutableState<Boolean>){
 
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
     TextButton(
@@ -34,7 +32,11 @@ fun ForgotButton(isSignIn: MutableState<Boolean>){
                         color = White.copy(0.8f)
                     )
                 ) {
-                    append("Already have an account? ")
+                    if(!isSignIn.value) {
+                        append("Already have an account? ")
+                    }else{
+                        append("Don't have account")
+                    }
                 }
                 withStyle(
                     style = SpanStyle(
@@ -42,7 +44,10 @@ fun ForgotButton(isSignIn: MutableState<Boolean>){
                         color = White
                     )
                 ) {
-                    append("Log in")
+                    if (!isSignIn.value){
+                    append(" Log in")}else{
+                        append(" Sign up")
+                    }
                 }
 
             },
