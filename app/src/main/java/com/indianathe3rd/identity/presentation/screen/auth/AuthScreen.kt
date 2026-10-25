@@ -115,7 +115,6 @@ fun AuthScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(horizontal = 20.dp)
-
                     .imePadding()
                     .navigationBarsPadding()
                     .verticalScroll(rememberScrollState()),
